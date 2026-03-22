@@ -17,19 +17,19 @@ string[] words = new string[]
     "Ivan",
     "Matea",
     "Milena",
-    
+
 };
 
 
 
-double[] decimalNum = [10.666666,6.602,23.23,46.34,0.353,0.23];
+double[] decimalNum = [10.666666, 6.602, 23.23, 46.34, 0.353, 0.23];
 
 
 char[] keyboardChar = ['f', 'g', 'G', 'h', 's'];
 
-bool[] arrayThrueAndFalse = [true,false,false,false,false,true,true];
+bool[] arrayThrueAndFalse = [true, false, false, false, false, true, true];
 
-int[,] array1 = { { 2 , 4 } , { 5 , 8 } , { 2 , 9 } , { 0 , 0 } , { 0 , -2 } };
+int[,] array1 = { { 2, 4 }, { 5, 8 }, { 2, 9 }, { 0, 0 }, { 0, -2 } };
 
 
 
@@ -82,8 +82,8 @@ do
     Array.Resize(ref arrayNames, arrayNames.Length + 1);
     arrayNames[arrayNames.Length - 1] = userInput;
     Console.WriteLine("Do you want to enter another name Y or N!!.");
-    userInput = Console.ReadLine(); 
-    if(userInput == "n" || userInput == "N")
+    userInput = Console.ReadLine();
+    if (userInput == "n" || userInput == "N")
     {
         break;
     }
@@ -93,7 +93,7 @@ do
 while (true);
 
 
-foreach(string names2 in arrayNames)
+foreach (string names2 in arrayNames)
 {
     Console.Write(names2);
 }
@@ -102,7 +102,7 @@ foreach(string names2 in arrayNames)
 
 
 
-  
+
 
 
 

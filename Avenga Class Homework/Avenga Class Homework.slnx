@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Class02/Class02.csproj" />
+  <Project Path="Class03/Class03.csproj" />
+  <Project Path="Class04/Class04.csproj" />
+</Solution>
