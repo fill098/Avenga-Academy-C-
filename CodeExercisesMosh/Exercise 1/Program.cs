@@ -6,14 +6,14 @@ int count = 0;
 
 for (int i = 1; i <= 100; i++)
 {
-	
-	if (i % 3 == 0)
-	{
-		count++;
-	}
+
+    if (i % 3 == 0)
+    {
+        count++;
+    }
 
 
-	
+
 }
 
 Console.WriteLine("The count of divisible numbers with 3 with no remainder is: " + count);
@@ -62,15 +62,15 @@ bool isValid = int.TryParse(Console.ReadLine(), out int n);
 
 if (!isValid || n < 0)
 {
-	Console.WriteLine("Pleasse ennter a positive number greter then 0!!");
-		return;
+    Console.WriteLine("Pleasse ennter a positive number greter then 0!!");
+    return;
 }
 
 long factorial = 1;
 for (int i = 2; i <= n; i++)
 {
 
-	factorial *= i;
+    factorial *= i;
 
 }
 
@@ -92,7 +92,7 @@ Console.WriteLine($"The factorial of the number{n} is: {factorial}");
 //(To make sure the program is behaving correctly, you can display the secret number on the console first.)
 
 
-int winningNum = new Random().Next(1,10);
+int winningNum = new Random().Next(1, 10);
 
 Console.WriteLine("The wining number is " + winningNum);
 
@@ -101,16 +101,16 @@ Console.WriteLine("The wining number is " + winningNum);
 
 for (int i = 4; i > 0; i--)
 {
-	Console.WriteLine($"Guess the secret number you have {i} chances!!");
+    Console.WriteLine($"Guess the secret number you have {i} chances!!");
     int input2 = Convert.ToInt32(Console.ReadLine());
-    
-   
+
+
     if (input2 == winningNum)
-	{
-		Console.WriteLine($"You guess the winnung number {winningNum}");
-		return;
-	}
-	
+    {
+        Console.WriteLine($"You guess the winnung number {winningNum}");
+        return;
+    }
+
 }
 
 Console.WriteLine("You have lost the game!!");
@@ -156,11 +156,11 @@ int max = Convert.ToInt32(nums[0]);
 
 foreach (var strItem in nums)
 {
-	int numArray = Convert.ToInt32(strItem);
-	if(numArray > max)
-	{
-		max = numArray;
-	}
+    int numArray = Convert.ToInt32(strItem);
+    if (numArray > max)
+    {
+ max = numArray;
+    }
 
 }
 
