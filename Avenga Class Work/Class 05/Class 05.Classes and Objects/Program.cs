@@ -1,5 +1,4 @@
-﻿using Class_05.Classes_and_Objects.Models;
-
+﻿
 
 #region Classes deffinition and creating instant objects
 
@@ -12,44 +11,9 @@
 
 
 
-Person martin = new Person();
-
-
-martin.FirstName = "Filip";
-martin.LastName = "mihajlovski";
-martin.Age = 27;
-
-martin.Hobbise = ["Readinig books", "Rummimg"];
-martin.IsStudent = false;
-
-
-Console.WriteLine($"{martin.FirstName} {martin.LastName} - {martin.GetSSNvalue()}");
-
-Console.ReadLine();
-
 //Create a Person object usinig the object initialazer syintax
 
-Person bob = new Person()
-{
-    FirstName = "Bob",
-    LastName = "Bobsky",
-    Age = 25,
-    PhoneNumber = "072/222-333",
-    Hobbise = ["Runinig", "Losteninig to music"],
-    IsStudent = true
-};
 
-Console.WriteLine($"{bob.FirstName} {bob.LastName} - {bob.GetSSNvalue()} is {bob.Age} years old.");
-
-Console.ReadLine();
-
-
-Person jill = new Person("Jill", "Wayne", "070/123-456", 28, [], true);
-
-Console.WriteLine($"{jill.FirstName} {jill.LastName} - {jill.GetSSNvalue()} is {jill.Age} years old.");
-
-
-jill.Talk("Hello there nice to mert you!!");
 
 
 
