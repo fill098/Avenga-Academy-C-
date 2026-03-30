@@ -66,7 +66,10 @@ void Register()
     Console.WriteLine("Enter ID name:");
     string registerId = Console.ReadLine();
     Console.WriteLine("Enter a username:");
-    string registerUsername
+    string registerUsername = Console.ReadLine();
+    Console.WriteLine("Enter a password:");
+    string registerPassword = Console.ReadLine();
+
 }
 
 
