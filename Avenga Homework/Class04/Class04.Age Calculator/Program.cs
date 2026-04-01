@@ -23,22 +23,22 @@ static string AgeCalculator(DateTime birthday)
         age--;
         return $"Your birthday has not happen yet, you are this {age} years old!!";
     }
-    else if(birthday.Day == today.Day)
+    else if (birthday.Day == today.Day)
     {
         return $"HAPPY BIRTHDAY! You are {age} years old!!";
     }
     else
     {
         return $"Your birthday has alrady past, you are {age} years old!!";
-    }     
-    
+    }
+
 }
 
 Console.WriteLine("Please enter your birthday as dd/mm/yyyy!!");
 
 DateTime birthYearInput = DateTime.Parse(Console.ReadLine());
 
-    
+
 Console.WriteLine(AgeCalculator(birthYearInput));
 
 

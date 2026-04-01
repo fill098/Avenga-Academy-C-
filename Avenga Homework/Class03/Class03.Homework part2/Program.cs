@@ -76,8 +76,8 @@
 //Trajko
 
 
-string[] studntNamesG1 = new string[] { "Filip", "Zdravko", "Petko", "Stanko", "Branko"};
-string[] studntNamesG2 = new string[] { "Darko", "Mario", "Stefan", "Matej", "Angela"};
+string[] studntNamesG1 = new string[] { "Filip", "Zdravko", "Petko", "Stanko", "Branko" };
+string[] studntNamesG2 = new string[] { "Darko", "Mario", "Stefan", "Matej", "Angela" };
 
 string operation;
 
