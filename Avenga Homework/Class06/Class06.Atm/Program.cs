@@ -1,51 +1,61 @@
 ﻿using Class06.Atm.Models;
-
+using Class06.HelperMethod;
 
 #region ATM
-//Create an ATM application. A customer should be able to authenticate with card number and pin and should be
-//greeted with a message greeting them by full name. After that they can choose one of the following:
+/*Create an ATM application. A customer should be able to authenticate with card number and pin and should be
+greeted with a message greeting them by full name. After that they can choose one of the following:
 
-//Balance checking
-//Cash withdrawal
-//Cash deposition
-//In order for the ATM app to work we need Customers.
+Balance checking
+Cash withdrawal
+Cash deposition
+In order for the ATM app to work we need Customers.
 
-//Bonus: The balance and pin should not be public
-//Bonus: Ask the customer if they want another action
-//Bonus: Add an option to register a new card
+Bonus: The balance and pin should not be public
+Bonus: Ask the customer if they want another action
+Bonus: Add an option to register a new card
+
+🧠 Design Hint – Separate Methods
+This task is too big for one method.
+Split it into logical parts:
+
+Authentication (card + pin)
+ATM menu
+Balance operations
+Deposit / Withdraw
+Repeating actions
+
+*/
+
 
 
 Customers[] atmCustomers = new Customers[]
 {
     new Customers("Milena", "Dimitrovksa", 1111, 12345 ,2300),
-    new Customers("Martin", "Jakson", 2222, 123456 ,50500),
-    new Customers("David", "Trump", 3333, 1234567, 3010),
-    new Customers("Matej","Jonson",4444, 12345678, 5450)
+    new Customers("Martin", "Jakson", 2222, 12345 ,50500),
+    new Customers("David", "Trump", 3333, 12345, 3010),
+    new Customers("Matej","Jonson",4444, 12345, 5450)
 };
 
-
-
-
-
-void AtmUi()
+bool AskForAnotherAction()
 {
+    return !Helper.GetYesNoInput("Do you want to perform another action? (Y/N): ", true);
+}
+
+
+
+bool AtmUi()
+{
+    Console.Clear();
     Console.WriteLine("++++++++++++++++++++++++++++++++++++++");
     Console.WriteLine("Filips ATM");
     Console.WriteLine("++++++++++++++++++++++++++++++++++++++");
     Console.WriteLine("");
 
-    Console.WriteLine("Enter your card number:");
-    bool isValidCard = int.TryParse(Console.ReadLine(), out int cardNumber);
-    Console.WriteLine("Enter your pin:");
-    bool isValidPin = int.TryParse(Console.ReadLine(), out int cardPin);
-
-    if (!isValidCard || !isValidPin)
-    {
-        Console.WriteLine("Invalid input. Try again with valid card number and pin!!");
-    }
+    int cardNumber = Helper.GetIntInput("Enter your card number:");
+    int cardPin = Helper.GetIntInput("Enter your card Pin number:");
 
 
-    Customers userFound = FindAtmUser(cardNumber, cardPin);
+    Customers userFound = Customers.FindAtmUser(atmCustomers, cardNumber, cardPin);
 
     if (userFound != null)
     {
@@ -64,14 +74,50 @@ void AtmUi()
         Console.WriteLine("  │  4. Register New Card       │");
         Console.WriteLine("  │  5. Exit / Eject Card       │");
         Console.WriteLine("  └─────────────────────────────┘");
-        Console.Write("\n  Choose an option (1-5): ");
+        
+
+
+        int atmChose = Helper.GetIntInputInRange("\n  Choose an option (1-5): ", 1, 5);
+
+        switch (atmChose)
+        {
+            case 1:
+                userFound.PrintBalance();
+                return AskForAnotherAction();
+            case 2:
+                int withdrawAmount = Helper.GetIntInput("How much do you want to whitdraw:");
+                userFound.Withdraw(withdrawAmount);
+
+                return AskForAnotherAction();
+            case 3:
+                int depositAmount = Helper.GetIntInput("How much do do you want to deposit!");
+                userFound.Deposit(depositAmount);
+
+                return AskForAnotherAction();
+            case 4:
+                int newCardNum = Helper.GetIntInput("Enter your new card:");
+
+                return AskForAnotherAction();
+            case 5:
+                Console.WriteLine("Thank you for using Filip's ATM. Goodbye!");
+                return true; 
+            default:
+                return false;
+        }
+
+
 
 
     }
     else
+
     {
         Console.WriteLine("Unable to find costumer with that card number and pin.");
+
+        Console.ReadLine();
     }
+
+    return false;
 
 
 
@@ -82,25 +128,14 @@ void AtmUi()
 
 }
 
-Customers FindAtmUser(int cardNumber, int cardPin)
-{
-    foreach (Customers user in atmCustomers)
-    {
-        if (user.CardNumber == cardNumber && user.ValidatePin(cardPin))
-        {
-            return user;
 
-        }
-    }
-    return null;
-}
 
 
 AtmUi();
 
 
 
-//while (true) ;
+while (!AtmUi()) ;
 
 
 
