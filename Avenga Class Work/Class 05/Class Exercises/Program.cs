@@ -70,6 +70,8 @@ Console.WriteLine(human1.FullName());
 //Call the selected method.
 
 
+<<<<<<< HEAD
+=======
 Console.WriteLine("Enter the dogs name!!");
 string dogName = Console.ReadLine() ?? "Unknown";
 Console.WriteLine("Enetr the dogs race!!");
@@ -152,5 +154,6 @@ foreach (Student student in students)
 Console.WriteLine("No student was found please try again with difrent name!!");
 
 
+>>>>>>> 0341d2eff48d04df8bf4da16e80a7fda3aa5311b
 
 #endregion
