@@ -96,10 +96,7 @@ namespace Class06.Atm.Models
             return null;
         }
 
-        bool AskForAnotherAction()
-        {
-            return !Helper.GetYesNoInput("Do you want to perform another action? (Y/N): ", true);
-        }
+        
 
 
 

@@ -64,6 +64,25 @@
             }
         }
 
+        public static string GetStringInput(string promptText, bool oneLine = false)
+        {
+            while (true)
+            {
+                if (oneLine) Console.Write(promptText);
+                else Console.WriteLine(promptText);
+
+                string result = Console.ReadLine().Trim();
+
+                if (string.IsNullOrWhiteSpace(result))
+                {
+                    Console.WriteLine("Input cannot be empty. Please try again.");
+                    continue;
+                }
+
+                return result;
+            }
+        }
+
 
     }
     
