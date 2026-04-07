@@ -82,6 +82,10 @@
                 return result;
             }
         }
+        bool AskForAnotherAction()
+        {
+            return !Helper.GetYesNoInput("Do you want to perform another action? (Y/N): ", true);
+        }
 
 
     }
