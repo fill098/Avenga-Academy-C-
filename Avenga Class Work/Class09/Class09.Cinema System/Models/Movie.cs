@@ -16,25 +16,15 @@ namespace Class09.Cinema_System.Models
 
         public Movie(string title, Genre genre, double rating)
         {
-
-            Title = title;
-            Genre = genre;
-            SetRating(rating);
-            TicketPrice = 5 * rating;
-                
-        }
-
-
-
-        public void SetRating(double rating)
-        {
             try
             {
+                Title = title;
+                Genre = genre;
                 if (rating < 1 || rating > 5)
-                    throw new ArgumentOutOfRangeException(nameof(rating), "Rating must be between 1 and 5.");
-
-                Rating = rating;
-                TicketPrice = 5 * Rating;
+                {
+                    throw new ArgumentOutOfRangeException("Rating must be 1 to 5.");
+                }
+                TicketPrice = 5 * rating;
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -46,7 +36,33 @@ namespace Class09.Cinema_System.Models
                 Console.WriteLine($"[Unexpected Rating Error] {ex.Message}");
                 throw;
             }
+
+
         }
+
+
+
+        //public void SetRating(double rating)
+        //{
+        //    try
+        //    {
+        //        if (rating < 1 || rating > 5)
+        //            throw new ArgumentOutOfRangeException(nameof(rating), "Rating must be between 1 and 5.");
+
+        //        Rating = rating;
+        //        TicketPrice = 5 * Rating;
+        //    }
+        //    catch (ArgumentOutOfRangeException ex)
+        //    {
+        //        Console.WriteLine($"[Rating Error] {ex.Message}");
+        //        throw;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"[Unexpected Rating Error] {ex.Message}");
+        //        throw;
+        //    }
+        //}
 
 
     }
