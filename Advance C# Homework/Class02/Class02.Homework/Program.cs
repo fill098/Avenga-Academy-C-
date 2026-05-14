@@ -19,6 +19,7 @@ using Class02.Homework.BaseEntity;
 using Class02.Homework.Interface;
 using Class02.Homework.Models;
 using Class02.Homework.Models2;
+using Class02.Homework.Models3;
 
 Document doc = new Document("BMW", "BMW AG's automobiles are marketed under the BMW, Mini, and Rolls-Royce brands while its motorcycles are marketed under the BMW Motorrad brand.");
 
@@ -124,6 +125,65 @@ Console.WriteLine(rectangle3.CalculatePerimeter());
 rectangle3.DisplayInfo();
 
 
+
+
+
+
+
+#endregion
+
+
+#region Task 4
+/*
+Task #4 - Employee abstract class
+Create an abstract class Employee with fields Name and Id, and two abstract methods:
+
+abstract decimal CalculateSalary();
+abstract void DisplayInfo();
+Create two subclasses with these salary rules:
+
+Manager - extra fields BaseSalary and Bonus. Salary = BaseSalary + Bonus.
+Programmer - extra fields HourlyRate and HoursWorked. Salary = HourlyRate * HoursWorked.
+Each subclass's DisplayInfo() should print name, id, role, and computed salary.
+
+In Program.cs, create one Manager and one Programmer, put them in an Employee[] array, and loop through calling DisplayInfo() on each.
+*/
+
+
+
+Manager menager1 = new Manager { Id = 1, Name = "Bob Bobsky", BaseSalary = 50000, Bonus = 5000, Role = Role.Menager };
+Manager menager2 = new Manager { Id = 2, Name = "Petko Bobsky", BaseSalary = 60000, Bonus = 6000, Role = Role.Menager };
+Manager menager3 = new Manager { Id = 3, Name = "Trajko Bobsky", BaseSalary = 70000, Bonus = 7000, Role = Role.Menager };
+Manager menager4 = new Manager { Id = 4, Name = "Ivan Bobsky", BaseSalary = 70000, Bonus = 8000, Role = Role.Menager };
+
+
+Programer programmer1 = new Programer { Id = 5, Name = "Stefan Code", HourlyRate = 50, HoursWorked = 160, Role = Role.Programer };
+Programer programmer2 = new Programer { Id = 6, Name = "Marko Dev", HourlyRate = 55, HoursWorked = 160, Role = Role.Programer };
+Programer programmer3 = new Programer { Id = 7, Name = "Dejan Script", HourlyRate = 60, HoursWorked = 160, Role = Role.Programer };
+Programer programmer4 = new Programer { Id = 8, Name = "Nikola Coder", HourlyRate = 65, HoursWorked = 160, Role = Role.Programer };
+
+
+
+
+
+
+
+Employee[] employees = new Employee[]
+{
+    menager1,
+    menager2,
+    menager3,
+    menager4,
+    programmer1,
+    programmer2,
+    programmer3,
+    programmer4
+};
+
+foreach (Employee companyEmployee in employees)
+{
+    companyEmployee.DisplayInfo();
+}
 
 
 
