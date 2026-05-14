@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Class07.class library project/Class07.class library project..csproj" />
+  <Project Path="ClassLibraryEmploy/ClassLibraryEmploy.csproj" Id="cbcf9a42-dd6b-45b0-861c-2b2d42de9d22" />
+  <Project Path="EnumRole/EnumRole.csproj" Id="79249874-dbc0-45b3-9f46-611059223c2d" />
+</Solution>
