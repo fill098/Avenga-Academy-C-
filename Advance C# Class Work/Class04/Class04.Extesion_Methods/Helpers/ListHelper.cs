@@ -10,6 +10,15 @@
             }
         }
 
+        public static void PrintListInfo<T>(this List<T> items)
+        {
+            string listType = typeof(T).Name;
+
+            Console.WriteLine($"This list hase {items.Count} elemets and is of type{listType}");
+
+           
+        }
+
 
     }
 }

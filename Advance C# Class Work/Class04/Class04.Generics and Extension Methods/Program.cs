@@ -1,4 +1,5 @@
-﻿using Class04.Generics_and_Extension_Methods.Domain.Data;
+﻿using Class04.Extesion_Methods.Helpers;
+using Class04.Generics_and_Extension_Methods.Domain.Data;
 using Class04.Generics_and_Extension_Methods.Domain.Interfaces;
 using Class04.Generics_and_Extension_Methods.Domain.Models;
 using Class04.Generics_and_Extension_Methods.Helpers;
@@ -54,6 +55,33 @@ ProductsDb.Insert(new Product { Id = 2, Title = "USB", Description = "64MB" });
 // Printing data
 OrdersDb.PrintAll();
 ProductsDb.PrintAll();
+
+integers.PrintListInfo();
+
+string bobLong = "Bob Bobski";
+
+string bobShort = bobLong.Truncate(3);
+
+Console.WriteLine(bobShort);
+
+Console.WriteLine("Bob Bobsky".Truncate(5));
+
+
+string johnShor = "John Geta";
+Console.WriteLine(johnShor.Truncate(4));
+
+Console.WriteLine(johnShor.Quoute());
+
+
+Product product = new Product
+{
+    Id = 1,
+    Description = "Product Descripton",
+    Title = "Product Titile"
+};
+
+product.GetInfo();
+
 
 
 
