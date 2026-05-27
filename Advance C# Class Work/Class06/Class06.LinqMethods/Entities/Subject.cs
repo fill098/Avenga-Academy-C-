@@ -9,7 +9,7 @@ namespace Class06.LinqMethods.Entities
         public string Title { get; set; }
         public int Modules { get; set; }
         public int StudentsAttending { get; set; }
-        public Academy Type { get; set; }
+        public Academy Academy { get; set; }
 
         public Subject(int id, string title, int modules, int students, Academy type)
         {
@@ -17,12 +17,12 @@ namespace Class06.LinqMethods.Entities
             Title = title;
             Modules = modules;
             StudentsAttending = students;
-            Type = type;
+            Academy = type;
         }
 
         public override string GetInfo()
         {
-            return $"{Id}) {Title} of the {Type} Academy - {StudentsAttending} attending!";
+            return $"{Id}) {Title} of the {Academy} Academy - {StudentsAttending} attending!";
         }
     }
 
