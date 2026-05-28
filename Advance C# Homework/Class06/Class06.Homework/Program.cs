@@ -23,6 +23,7 @@ Be creative and write requirement of your own choice :) (only one catch, must us
 
 
 using Class06.Homework.Models;
+using System.Runtime.ConstrainedExecution;
 
 List<Car> cars = CarsData.Cars;
 
@@ -47,7 +48,7 @@ foreach (var car in europeanCars)
 
 var uniqueCylindes = CarsData.Cars
     .Select(unigue => unigue.Cylinders)
-    .Distinct() 
+    .Distinct()
     .ToList();
 
 Console.ForegroundColor = ConsoleColor.Cyan;
@@ -60,6 +61,110 @@ foreach (var car in europeanCars)
 {
     Console.WriteLine($"{car.Model} - {car.Cylinders}");
 }
+
+
+Console.ForegroundColor = ConsoleColor.Cyan;
+Console.WriteLine("\n╔══════════════════════════════════════╗");
+Console.WriteLine("║      Car Models with uperCase        ║");
+Console.WriteLine("╚══════════════════════════════════════╝");
+Console.ResetColor();
+
+
+var modelUperCase = CarsData.Cars
+    .Select(model => model.Model.ToUpper());
+
+
+foreach (var carModel in modelUperCase)
+{
+    Console.WriteLine(carModel);
+}
+
+
+
+Console.ForegroundColor = ConsoleColor.Cyan;
+Console.WriteLine("\n╔══════════════════════════════════════╗");
+Console.WriteLine("║      Horsepower greater than 300     ║");
+Console.WriteLine("╚══════════════════════════════════════╝");
+Console.ResetColor();
+
+
+var horsepowerGraterThen300 = CarsData.Cars
+    .Where(p => p.HorsePower > 300).ToList();
+
+if (horsepowerGraterThen300.Count == 0)
+{
+    Console.WriteLine("There is no car with horsepower greater then 300!!");
+}
+
+foreach (var car in horsepowerGraterThen300)
+{
+
+    Console.WriteLine($"{car.Model} - {car.HorsePower}");
+}
+
+Console.ForegroundColor = ConsoleColor.Cyan;
+Console.WriteLine("\n╔══════════════════════════════════════╗");
+Console.WriteLine("║       Cars with highest horespower   ║");
+Console.WriteLine("╚══════════════════════════════════════╝");
+Console.ResetColor();
+
+var highestHorsepowerCar = CarsData.Cars
+    .OrderByDescending(p => p.HorsePower)
+    .FirstOrDefault();
+
+
+Console.WriteLine($"Car with highest horsepower: {highestHorsepowerCar?.Model}, HP: {highestHorsepowerCar?.HorsePower}");
+
+var highestHorsepowerCar2 = cars.MaxBy(c => c.HorsePower);
+
+Console.WriteLine($"Car with highest horsepower: {highestHorsepowerCar2?.Model}, HP: {highestHorsepowerCar2?.HorsePower}");
+
+Console.ForegroundColor = ConsoleColor.Cyan;
+Console.WriteLine("\n╔══════════════════════════════════════╗");
+Console.WriteLine("║       Chevrolets                     ║");
+Console.WriteLine("╚══════════════════════════════════════╝");
+Console.ResetColor();
+
+
+var chevrolets = CarsData.Cars
+    .Where(model => model.Model.Contains("Chevrolet"))
+    .OrderByDescending(o => o.Weight)
+    .ToList();
+
+foreach (var car in chevrolets)
+{
+    Console.WriteLine($"{car.Model} - Weight: {car.Weight}");
+}
+
+Console.ForegroundColor = ConsoleColor.Cyan;
+Console.WriteLine("\n╔══════════════════════════════════════╗");
+Console.WriteLine("║  The car with the longest model name ║");
+Console.WriteLine("╚══════════════════════════════════════╝");
+Console.ResetColor();
+
+var modelNameLongest = CarsData.Cars
+    .MaxBy(x => x.Model.Count());
+
+Console.WriteLine($"The car with the longest model name: {modelNameLongest.Model}");
+
+
+Console.ForegroundColor = ConsoleColor.Cyan;
+Console.WriteLine("\n╔══════════════════════════════════════╗");
+Console.WriteLine("║  The car with the longest model name ║");
+Console.WriteLine("╚══════════════════════════════════════╝");
+Console.ResetColor();
+
+var groupCars = CarsData.Cars
+    .GroupBy(o => o.Origin)
+    .OrderBy(group => group.Count());
+
+foreach (var group in groupCars)
+{
+    Console.WriteLine($"Origion: {group.Key}, Count: {group.Count()}");
+}
+
+
+
 
 
 
