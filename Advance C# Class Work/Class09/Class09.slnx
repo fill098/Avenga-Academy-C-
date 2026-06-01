@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Class09.Recap/Class09.FileSystem.csproj" />
+  <Project Path="FileStreamsDemo/FileStreamsDemo.csproj" />
+</Solution>

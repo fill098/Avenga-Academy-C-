@@ -1,0 +1,6 @@
+This is a sample note.
+StreamWriter lets us write text line by line effeciently.
+It also allows you to append OR overWrite.
+NEW This is a sample note.
+NEW StreamWriter lets us write text line by line effeciently.
+NEW It also allows you to append OR overWrite.
