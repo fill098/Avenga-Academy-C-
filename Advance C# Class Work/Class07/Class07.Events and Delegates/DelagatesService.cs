@@ -19,6 +19,10 @@
         }
 
         private double Calculation(int num1, int num2, CalculationDelegate)
+        {
+
+        }
+
         public void Run()
         {
             Console.WriteLine("Hello, World!");
