@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="TaxiManagerMyTry.App/TaxiManagerMyTry.App.csproj" />
+  <Project Path="TaxiManagerMyTry.DataAccess/TaxiManagerMyTry.DataAccess.csproj" Id="d88ba049-e5a6-4d7e-8703-c163373b577b" />
+  <Project Path="TaxiManagerMyTry.Helpers/TaxiManagerMyTry.Helpers.csproj" Id="c29d338c-b68b-4190-b37b-0e71e7ea0714" />
+  <Project Path="TaxiManagerMyTry.Models/TaxiManagerMyTry.Domain.csproj" Id="a9f30036-a86b-4060-b702-7a7b8cdb4fcc" />
+</Solution>

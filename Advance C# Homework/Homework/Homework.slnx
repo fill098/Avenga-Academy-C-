@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Data_Access/TimeTracking.DataAccess.csproj" />
+  <Project Path="Homework.Time_Tracking_App/TimeTracking.App.csproj" />
+  <Project Path="TimeTracking.Helpers/TimeTracking.Helpers.csproj" />
+</Solution>
