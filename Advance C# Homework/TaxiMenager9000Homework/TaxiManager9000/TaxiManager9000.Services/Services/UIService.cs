@@ -1,0 +1,188 @@
+﻿using TaxiManager9000.Domain.BaseEntity;
+using TaxiManager9000.Domain.Enums;
+using TaxiManager9000.Domain.Models;
+using TaxiManager9000.Helpers;
+using TaxiManager9000.Services.Enums;
+using TaxiManager9000.Services.Interfaces;
+
+namespace TaxiManager9000.Services.Services
+{
+    public class UIService : IUIService
+    {
+        private List<MenuChoice> _menuItems;
+
+        private readonly IDriverService _driverService;
+        private readonly ICarService _carService;
+
+        public UIService(IDriverService driverService, ICarService carService)
+        {
+            _driverService = driverService;
+            _carService = carService;
+        }
+        public List<MenuChoice> MenuItems 
+        { 
+            get => _menuItems; 
+            set {
+                if (_menuItems != null)
+                {
+                    _menuItems.Clear();
+                }
+                _menuItems = value;
+            }
+        }
+
+        public int ChooseEntitiesMenu<T>(List<T> entities) where T : BaseEntity
+        {
+            while (true)
+            {
+                Console.WriteLine("Enter a number to choose one of the following:");
+                for(int i=0; i < entities.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}) {entities[i].GetInfo()}");
+                }
+                int choice = ValidationHelper.ValidateNumberInput(Console.ReadLine(), entities.Count);
+                if(choice == -1)
+                {
+                    ConsoleHelper.PrintError("Invalid choice! Try again..");
+                    Console.Clear();
+                    continue;
+                }
+                return choice;
+            }
+        }
+
+        public int ChooseMenu<T>(List<T> items) // ["Login", "Exit"]
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}) {items[i]}");
+            }
+            int choice = ValidationHelper.ValidateNumberInput(Console.ReadLine(), items.Count);
+            return choice;
+        }
+
+        public User LogInMenu()
+        {
+            Console.Clear();
+            ConsoleHelper.PrintInColor("Enter your credentials:", ConsoleColor.Cyan);
+            string? username = ConsoleHelper.GetInput("Username: ");
+            string? password = ConsoleHelper.GetInput("Password: ");
+            if (!ValidationHelper.ValidateStringInput(username) || !ValidationHelper.ValidateStringInput(password))
+            {
+                throw new Exception("Please enter valid inputs!");
+            }
+
+            return new User
+            {
+                Username = username,
+                Password = password
+            };
+        }
+
+        public int MainMenu(Role role)
+        {
+            while (true) 
+            {
+                Console.Clear();
+                ConsoleHelper.PrintTitle($"====== [{role.ToString()}] MENU ========");
+                MenuItems = GetMenuOptionsForRole(role);
+                int userChoice = ChooseMenu(MenuItems);
+                if (userChoice == -1) 
+                {
+                    ConsoleHelper.PrintError("Invalid choice! Try again...");
+                    continue;
+                }
+                return userChoice;
+            }
+        }
+
+        private List<MenuChoice> GetMenuOptionsForRole(Role role) 
+        {
+            List<MenuChoice > menuItems = new List<MenuChoice>();
+            switch (role) 
+            {
+                case Role.Administrator:
+                    menuItems = new List<MenuChoice>()
+                    {
+                        MenuChoice.AddNewUser,
+                        MenuChoice.RemoveExistingUser,
+                        MenuChoice.ChangePassword,
+                        MenuChoice.Exit
+                    };
+                    break;
+                case Role.Manager:
+                    menuItems = new List<MenuChoice>()
+                    {
+                        MenuChoice.ListAllDrivers,
+                        MenuChoice.TaxiLicenseStatus,
+                        MenuChoice.DriverManager,
+                        MenuChoice.ChangePassword,
+                        MenuChoice.Exit
+                    };
+                    break;
+                case Role.Maintenance:
+                    menuItems = new List<MenuChoice>() 
+                    {
+                        MenuChoice.ListAllCars,
+                        MenuChoice.LicensePlateStatus,
+                        MenuChoice.ChangePassword,
+                        MenuChoice.Exit
+                    };
+                    break;
+                default:
+                    menuItems = new List<MenuChoice>();
+                    break;
+            }
+            return menuItems;
+        }
+
+        public void PrintDrivers(List<Driver> drivers)
+        {
+            foreach (var driver in drivers)
+            {
+                Console.Write($"{driver.Id}) {driver.FirstName} {driver.LastName} Drivinig in the {driver.Shift} with a ");
+
+                if (driver.Car != null)
+                    Console.Write(driver.Car.Model);
+                else
+                    ConsoleHelper.PrintInColor("no car assigned", ConsoleColor.DarkRed, false);
+
+                Console.WriteLine(" car.");
+            }
+        }
+
+        public void PrintCars(List<Car> cars)
+        {
+            foreach (var car in cars)
+            {
+                Console.WriteLine($"{car.Id}) {car.Model} with License plate: {car.LicensePlate} and utilized {_carService.GetShiftCoveragePercentage(car).ToString()}");
+            }
+        }
+
+        public void PrintLicenseStatus(List<Car> cars)
+        {
+
+            foreach (var car in cars)
+            {
+                LicenseStatus status = _carService.GetLicenseStatus(car);
+
+                switch (status)
+                {
+                    case LicenseStatus.Expired:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        break;
+                    case LicenseStatus.ExpiringSoon:
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        break;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        break;
+                }
+
+                Console.WriteLine($"{status}) Car Id {car.Id} - Plate {car.LicensePlate} expiering on {car.LicensePlateExpieryDate:d}");
+                Console.ResetColor();
+            }
+        }
+
+    }
+}
