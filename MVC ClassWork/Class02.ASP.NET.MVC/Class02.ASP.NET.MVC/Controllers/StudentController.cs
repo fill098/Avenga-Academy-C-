@@ -46,10 +46,20 @@ namespace Class02.ASP.NET.MVC.Controllers
         }
 
         //[Route("{id}")]
-        [HttpGet("getById/{id}")]
+        [HttpGet("getById/{id:int}")]
         public IActionResult GetById(int id)
         {
             return Json(_students.FirstOrDefault(x => x.Id == id));
+        }
+        [Route("id/{id}/name/{name}")]
+        public Student GetStudentByIdAndName(int id, string name)
+        {
+            return _students.FirstOrDefault(x => x.Id == id && x.FirstName == name);
+        }
+        [Route("byId/{id = 1}")]
+        public Student GetStudentByIdWithDefaultValue(int id)
+        {
+            return _students.FirstOrDefault(x => x.Id == id);
         }
     }
 }
