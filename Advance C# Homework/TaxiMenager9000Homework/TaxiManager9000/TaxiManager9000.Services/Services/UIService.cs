@@ -138,49 +138,71 @@ namespace TaxiManager9000.Services.Services
 
         public void PrintDrivers(List<Driver> drivers)
         {
-            foreach (var driver in drivers)
+
+            if(drivers.Count == 0) 
             {
-                Console.Write($"{driver.Id}) {driver.FirstName} {driver.LastName} Drivinig in the {driver.Shift} with a ");
-
-                if (driver.Car != null)
-                    Console.Write(driver.Car.Model);
-                else
-                    ConsoleHelper.PrintInColor("no car assigned", ConsoleColor.DarkRed, false);
-
-                Console.WriteLine(" car.");
+                ConsoleHelper.NoItemsMessage<Driver>();
             }
+            else
+            {
+                foreach (var driver in drivers)
+                {
+                    Console.Write($"{driver.Id}) {driver.FirstName} {driver.LastName} Drivinig in the {driver.Shift} with a ");
+
+                    if (driver.Car != null)
+                        Console.Write(driver.Car.Model);
+                    else
+                        ConsoleHelper.PrintInColor("no car assigned", ConsoleColor.DarkRed, false);
+
+                    Console.WriteLine(" car.");
+                }
+            }
+           
         }
 
         public void PrintCars(List<Car> cars)
         {
-            foreach (var car in cars)
+            if (cars.Count == 0)
             {
-                Console.WriteLine($"{car.Id}) {car.Model} with License plate: {car.LicensePlate} and utilized {_carService.GetShiftCoveragePercentage(car).ToString()}");
+                ConsoleHelper.NoItemsMessage<Car>();
+            }
+            else
+            {
+                foreach (var car in cars)
+                {
+                    Console.WriteLine($"{car.Id}) {car.Model} with License plate: {car.LicensePlate} and utilized {_carService.GetShiftCoveragePercentage(car).ToString()}");
+                }
             }
         }
 
         public void PrintLicenseStatus(List<Car> cars)
         {
-
-            foreach (var car in cars)
+            if (cars.Count == 0)
             {
-                LicenseStatus status = _carService.GetLicenseStatus(car);
-
-                switch (status)
+                ConsoleHelper.NoItemsMessage<Car>();
+            }
+            else
+            {
+                foreach (var car in cars)
                 {
-                    case LicenseStatus.Expired:
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        break;
-                    case LicenseStatus.ExpiringSoon:
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        break;
-                    default:
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        break;
-                }
+                    LicenseStatus status = _carService.GetLicenseStatus(car);
 
-                Console.WriteLine($"{status}) Car Id {car.Id} - Plate {car.LicensePlate} expiering on {car.LicensePlateExpieryDate:d}");
-                Console.ResetColor();
+                    switch (status)
+                    {
+                        case LicenseStatus.Expired:
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            break;
+                        case LicenseStatus.ExpiringSoon:
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            break;
+                        default:
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            break;
+                    }
+
+                    Console.WriteLine($"{status}) Car Id {car.Id} - Plate {car.LicensePlate} expiering on {car.LicensePlateExpieryDate:d}");
+                    Console.ResetColor();
+                }
             }
         }
 

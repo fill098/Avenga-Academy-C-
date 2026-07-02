@@ -8,5 +8,7 @@ namespace TaxiManager9000.Services.Interfaces
         public List<Driver> GetUnassignetDrivers(List<Driver> drivers);
         public void AssignDriverToCar(Driver driver, Car car, Shift shift);
         public List<Driver> GetAssignedDrivers(List<Driver> drivers);
+
+        public void UnassignDriverFromCar(Driver driver);
     }
 }

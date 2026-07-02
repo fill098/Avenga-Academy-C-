@@ -43,6 +43,7 @@
             return Console.ReadLine();
         }
 
+
         public static void NoItemsMessage<T>() => Console.WriteLine($"No {typeof(T).Name}s available");
 
         public static void Separator() => Console.WriteLine("---------------------------");
