@@ -122,37 +122,62 @@ namespace TaxiManager9000.App
 
                     case MenuChoice.DriverManager:
                         ConsoleHelper.PrintInColor("===== Driver Manager", ConsoleColor.Blue);
-                        List<Driver> drivers1 = _driverService.GetAll();
-                        List<Driver> unassignedDrivers = _driverService.GetUnassignetDrivers(drivers1);
-                        int driverChoice = _uiService.ChooseEntitiesMenu(unassignedDrivers);
-                        Driver selectedDriver = unassignedDrivers[driverChoice - 1];
 
-                        List<Shift> shiftOptions = new List<Shift> { Shift.Morning, Shift.Afternoon, Shift.Evening };
-                        int shiftChoice = _uiService.ChooseMenu(shiftOptions);
-                        if (shiftChoice == -1)
+                        List<DriverManagerOption> driverManagerOptions = new List<DriverManagerOption>
+                        {
+                            DriverManagerOption.AssignUnassignedDriver,
+                            DriverManagerOption.UnassignAssignedDriver
+                        };
+
+                        int driverManagerChoice = _uiService.ChooseMenu(driverManagerOptions);
+                        if (driverManagerChoice == -1)
                         {
                             ConsoleHelper.PrintError("Invalid choice! Try again...");
                             continue;
                         }
-                        Shift selectedShift = shiftOptions[shiftChoice - 1];
+                        DriverManagerOption selectedOption = driverManagerOptions[driverManagerChoice - 1];
 
-                        List<Car> allCars = _carService.GetAll();
-                        List<Car> availableCars = _carService.GetAvailableCarsForShift(allCars, selectedShift);
-                        if (availableCars.Count == 0)
+                        if (selectedOption == DriverManagerOption.AssignUnassignedDriver)
                         {
-                            ConsoleHelper.PrintError("No cars available for this shift.");
-                            continue;
+
+                            List<Driver> drivers1 = _driverService.GetAll();
+                            List<Driver> unassignedDrivers = _driverService.GetUnassignetDrivers(drivers1);
+                            int driverChoice = _uiService.ChooseEntitiesMenu(unassignedDrivers);
+                            Driver selectedDriver = unassignedDrivers[driverChoice - 1];
+
+                            List<Shift> shiftOptions = new List<Shift> { Shift.Morning, Shift.Afternoon, Shift.Evening };
+                            int shiftChoice = _uiService.ChooseMenu(shiftOptions);
+                            if (shiftChoice == -1)
+                            {
+                                ConsoleHelper.PrintError("Invalid choice! Try again...");
+                                continue;
+                            }
+                            Shift selectedShift = shiftOptions[shiftChoice - 1];
+
+                            List<Car> allCars = _carService.GetAll();
+                            List<Car> availableCars = _carService.GetAvailableCarsForShift(allCars, selectedShift);
+                            if (availableCars.Count == 0)
+                            {
+                                ConsoleHelper.PrintError("No cars available for this shift.");
+                                continue;
+                            }
+                            int carChoice = _uiService.ChooseEntitiesMenu(availableCars);
+                            Car selectedCar = availableCars[carChoice - 1];
+
+                            _driverService.AssignDriverToCar(selectedDriver, selectedCar, selectedShift);
+                            ConsoleHelper.PrintSuccess($"Successfully assigned {selectedDriver.FirstName} {selectedDriver.LastName} to {selectedCar.Model} for the {selectedShift} shift.");
                         }
-                        int carChoice = _uiService.ChooseEntitiesMenu(availableCars);
-                        Car selectedCar = availableCars[carChoice - 1];
-                        _driverService.AssignDriverToCar(selectedDriver, selectedCar, selectedShift);
-                        ConsoleHelper.PrintSuccess($"Successfully assigned {selectedDriver.FirstName} {selectedDriver.LastName} to {selectedCar.Model} for the {selectedShift} shift.");
+                        else
+                        {
 
-                        List<Driver> allDrivers = _driverService.GetAll();
-                        List<Driver> allAsignedDrivers = _driverService.GetAssignedDrivers(allDrivers);
-                        int driverChoice2 = _uiService.ChooseEntitiesMenu(allAsignedDrivers);
-                        Driver selectedDriver2 = allAsignedDrivers[driverChoice2 - 1];
+                            List<Driver> allDrivers = _driverService.GetAll();
+                            List<Driver> allAssignedDrivers = _driverService.GetAssignedDrivers(allDrivers);
+                            int driverChoice2 = _uiService.ChooseEntitiesMenu(allAssignedDrivers);
+                            Driver selectedDriver2 = allAssignedDrivers[driverChoice2 - 1];
 
+                            _driverService.UnassignDriverFromCar(selectedDriver2);
+                            ConsoleHelper.PrintSuccess($"Successfully unassigned {selectedDriver2.FirstName} {selectedDriver2.LastName}.");
+                        }
 
                         Console.ReadLine();
                         break;

@@ -25,6 +25,14 @@ namespace TaxiManager9000.Services.Services
         {
             return drivers.Where(x => x.Car != null).ToList();
         }
+        public void UnassignDriverFromCar(Driver driver)
+        {
+            Car car = driver.Car;
+            car.AssignedDrivers.Remove(driver);
+
+            driver.Car = null;
+            driver.Shift = Shift.NoShift;
+        }
 
     }
 }
