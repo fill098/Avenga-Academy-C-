@@ -46,45 +46,45 @@ namespace ToDoApp.DataAccess
                     Description = "Finish project presentation",
                     DueDate = DateTime.Now.AddDays(2),
                     CategoryId = 1, //Work
-                    Category = Categories.FirstOrDefault(c => c.Id == 1),
+                    //Category = Categories.FirstOrDefault(c => c.Id == 1),
                     StatusId = 1, //In Progress
-                    Status = Statuses.FirstOrDefault(s => s.Id == 1)
+                    //Status = Statuses.FirstOrDefault(s => s.Id == 1)
                   },
                  new ToDo {
                     Id = 2,
                     Description = "Clean the house",
                     DueDate = DateTime.Now.AddDays(1),
                     CategoryId = 2, //Home
-                    Category = Categories.FirstOrDefault(c => c.Id == 2),
+                    //Category = Categories.FirstOrDefault(c => c.Id == 2),
                     StatusId = 1, //In Progress
-                    Status = Statuses.FirstOrDefault(s => s.Id == 1)
+                    //Status = Statuses.FirstOrDefault(s => s.Id == 1)
                   },
                   new ToDo {
                     Id = 3,
                     Description = "Morning exercise",
                     DueDate = DateTime.Now,
                     CategoryId = 3, //Exercise
-                    Category = Categories.FirstOrDefault(c => c.Id == 3),
+                    //Category = Categories.FirstOrDefault(c => c.Id == 3),
                     StatusId = 2, //Completed
-                    Status = Statuses.FirstOrDefault(s => s.Id == 2)
+                    //Status = Statuses.FirstOrDefault(s => s.Id == 2)
                   },
                    new ToDo {
                     Id = 4,
                     Description = "Buy groceries",
                     DueDate = DateTime.Now.AddDays(3),
                     CategoryId = 4, //Shopping
-                    Category = Categories.FirstOrDefault(c => c.Id == 4),
+                    //Category = Categories.FirstOrDefault(c => c.Id == 4),
                     StatusId = 1, //In Progress
-                    Status = Statuses.FirstOrDefault(s => s.Id == 1)
+                    //Status = Statuses.FirstOrDefault(s => s.Id == 1)
                   },
                    new ToDo {
                     Id = 5,
                     Description = "Watch a movie",
                     DueDate = DateTime.Now,
                     CategoryId = 6, //FreeTime
-                    Category = Categories.FirstOrDefault(c => c.Id == 6),
+                    //Category = Categories.FirstOrDefault(c => c.Id == 6),
                     StatusId = 2, //Completed
-                    Status = Statuses.FirstOrDefault(s => s.Id == 2)
+                    //Status = Statuses.FirstOrDefault(s => s.Id == 2)
                   },
             };
         }

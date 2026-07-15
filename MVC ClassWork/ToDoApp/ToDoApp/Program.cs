@@ -1,3 +1,6 @@
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using ToDoApp.DataAccess;
 using ToDoApp.DataAccess.Implementations;
 using ToDoApp.DataAccess.Implementatons;
 using ToDoApp.DataAccess.Interfaces;
@@ -10,11 +13,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Registerd DbContext with SQL Server provider
+
+string connectionString = builder.Configuration.GetConnectionString("ToDoAppConectionString");
+builder.Services.AddDbContext<ToDoAppDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
 // Dependency Injection for Repositories
 builder.Services.AddScoped<IRepository<ToDo>, ToDoRepository>();
 builder.Services.AddScoped<IRepository<Category>, CategoryRepository>();
 builder.Services.AddScoped<IRepository<Status>, StatusRepository>();
+
+// Dependency Injection for Services
 builder.Services.AddScoped<IToDoService, ToDoService>();
+builder.Services.AddScoped<IFilterService, FilterService>();
 
 var app = builder.Build();
 

@@ -9,11 +9,15 @@ namespace ToDoApp.Services.Implementations
     public class ToDoService : IToDoService
     {
         private readonly IRepository<ToDo> _toDoRepository;
-        
+        private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<Status> _statusRepository;
 
-        public ToDoService(IRepository<ToDo> roDoRepository)
+
+        public ToDoService(IRepository<ToDo> roDoRepository, IRepository<Category> categoryRepository, IRepository<Status> statusRepository)
         {
             _toDoRepository = roDoRepository;
+            _categoryRepository = categoryRepository;
+            _statusRepository = statusRepository;
             
         }
         public List<ToDosVM> GetAllToDos(int? categoryId, int? statusId)
@@ -33,8 +37,10 @@ namespace ToDoApp.Services.Implementations
 
             foreach (var todo in todos)
             {
+                var category = _categoryRepository.GetById(todo.CategoryId);
+                var status = _statusRepository.GetById(todo.StatusId);
 
-                var todoVM= OptionalMapper.MapToDosVM(todo);
+                var todoVM= OptionalMapper.MapToDosVM(todo, category.Name, status.Name);
                 todosVM.Add(todoVM);
             }
             return todosVM;
