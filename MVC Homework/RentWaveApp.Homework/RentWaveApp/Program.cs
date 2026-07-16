@@ -1,4 +1,4 @@
-using Class08.ASP.NET.MVC.EntityframeWorkCORE.DataAccess;
+using RentWaveApp.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,11 +6,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var connectionString = builder.Configuration.GetConnectionString("HomeServer");
-builder.Services.AddDbContext<DemoDbContext>(options =>
+
+var connectionString = builder.Configuration.GetConnectionString("DemoData");
+builder.Services.AddDbContext<RentWaveDataContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
+
 
 var app = builder.Build();
 
