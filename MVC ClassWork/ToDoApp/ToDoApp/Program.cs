@@ -2,7 +2,6 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ToDoApp.DataAccess;
 using ToDoApp.DataAccess.Implementations;
-using ToDoApp.DataAccess.Implementatons;
 using ToDoApp.DataAccess.Interfaces;
 using ToDoApp.Domain;
 using ToDoApp.Services.Implementations;
@@ -19,7 +18,7 @@ string connectionString = builder.Configuration.GetConnectionString("ToDoAppCone
 builder.Services.AddDbContext<ToDoAppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// Dependency Injection for Repositories
+//Dependency Injection for Repositories
 builder.Services.AddScoped<IRepository<ToDo>, ToDoRepository>();
 builder.Services.AddScoped<IRepository<Category>, CategoryRepository>();
 builder.Services.AddScoped<IRepository<Status>, StatusRepository>();

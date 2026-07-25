@@ -1,0 +1,50 @@
+﻿@model List<MovieVM>
+
+
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a asp-controller="Rentals" asp-action="GetMyRentals" class="btn btn-outline-primary">My Rentals</a>
+
+    <form asp-controller="Account" asp-action="Logout" method="post">
+        <button type="submit" class="btn btn-outline-danger">Logout</button>
+    </form>
+</div>
+
+<table class="table table-striped table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Title</th>
+            <th>Genre</th>
+            <th>Language</th>
+            <th>Available</th>
+            <th>Quantity</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in Model)
+        {
+            <tr>
+                <td>@movie.Title</td>
+                <td>@movie.Genre</td>
+                <td>@movie.Language</td>
+                <td>
+                    @if (movie.IsAvailable)
+                    {
+                        <span class="badge bg-success">Yes</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">No</span>
+                    }
+                </td>
+                <td>@movie.Quantity</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@movie.Id" class="btn btn-sm btn-primary">
+                        Details
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
