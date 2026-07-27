@@ -1,5 +1,6 @@
 ﻿using RentWaveApp.DataAccess.Interfaces;
 using RentWaveApp.Domain.Domain;
+using RentWaveApp.Domain.Enum;
 using RentWaveApp.Mapper;
 using RentWaveApp.Models.ViewModels;
 using RentWaveApp.Services.Interfaces;
@@ -14,17 +15,23 @@ namespace RentWaveApp.Services.Imlementations
         {
             _movieRepository = movieService;
         }
-        public List<MovieVM> GetAllMovies()
+
+        public List<MovieVM> GetAllMovies(Genre? genre, string searchTerm)
         {
             List<Movie> movies = _movieRepository.GetAll();
 
-            List<MovieVM> moviesVM = movies
-                .Select(movie => RentWaveMapper.MapToMovieVM(movie))
-                .ToList();
+            if (genre.HasValue)
+            {
+                movies = movies.Where(x => x.Genre == genre.Value).ToList();
+            }
 
-            return moviesVM;
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                movies = movies.Where(x => x.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            return movies.Select(RentWaveMapper.MapToMovieVM).ToList();
         }
-
         public MovieVM GetMovieById(int id)
         {
             var movie = _movieRepository.GetById(id);

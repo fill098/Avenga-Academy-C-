@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RentWaveApp.Mapper;
+using RentWaveApp.Domain.Enum;
 using RentWaveApp.Models.ViewModels;
 using RentWaveApp.Services.Interfaces;
 
@@ -14,10 +14,21 @@ namespace RentWaveApp.Controllers
         {
             _movieService = movieService;
         }
-        public IActionResult GetAllMovies()
+        
+        [HttpGet("")]
+        public IActionResult GetAllMOvies(Genre? genre)
         {
-            var movies = _movieService.GetAllMovies();
+            var movies = _movieService.GetAllMovies(genre, null);
+            ViewBag.SelectedGenre = genre;
             return View(movies);
+        }
+
+        [HttpPost("filter")]
+        public IActionResult FilterByGenre(Genre? genre)
+        {
+            var movies = _movieService.GetAllMovies(genre, null);
+            ViewBag.SelectedGenre = genre;
+            return View("GetAllMovies", movies);
         }
 
         [HttpGet("{id}")]
@@ -31,5 +42,14 @@ namespace RentWaveApp.Controllers
             }
             return View("~/Views/Movies/Partial/_MovieDetailsPartial.cshtml", movieVM);
         }
+
+        [HttpPost("search")]
+        public IActionResult SearchMovies(string searchTerm)
+        {
+            var movies = _movieService.GetAllMovies(null, searchTerm);
+            ViewBag.SearchTerm = searchTerm;
+            return View("GetAllMovies", movies);
+        }
+
     }
 }

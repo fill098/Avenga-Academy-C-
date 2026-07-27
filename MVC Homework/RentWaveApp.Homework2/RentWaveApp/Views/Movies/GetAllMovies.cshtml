@@ -1,6 +1,24 @@
 ﻿@model List<MovieVM>
+@using RentWaveApp.Domain.Enum
 
+<form asp-action="FilterByGenre" method="post" class="mb-3 d-flex gap-2">
+    <select name="genre" class="form-select w-auto">
+        <option value="">All Genres</option>
+        @foreach (Genre genre in Enum.GetValues(typeof(Genre)))
+        {
+            <option value="@genre" selected="@(ViewBag.SelectedGenre?.Equals(genre) == true)">
+                @genre
+            </option>
+        }
+    </select>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
 
+<form asp-action="SearchMovies" method="post" class="mb-3 d-flex gap-2">
+    <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" class="form-control w-auto" placeholder="Search by title..." />
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+<a asp-action="GetAllMovies" class="btn btn-outline-secondary">Reset Filters</a>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <a asp-controller="Rentals" asp-action="GetMyRentals" class="btn btn-outline-primary">My Rentals</a>
