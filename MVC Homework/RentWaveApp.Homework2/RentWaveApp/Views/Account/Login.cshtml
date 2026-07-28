@@ -1,4 +1,6 @@
-﻿<h2 class="mb-3">Login</h2>
+﻿@model LoginVM
+
+<h2 class="mb-3">Login</h2>
 
 @if (ViewBag.Error != null)
 {
@@ -9,6 +11,7 @@
     <div class="mb-3">
         <label class="form-label">Card Number</label>
         <input type="text" name="cardNumber" class="form-control" />
+        <span asp-validation-for="CardNumber" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Login</button>
 </form>

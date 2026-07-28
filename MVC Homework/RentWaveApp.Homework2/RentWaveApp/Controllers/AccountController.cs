@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentWaveApp.Domain.Domain;
+using RentWaveApp.Models.ViewModels;
 using RentWaveApp.Services.Interfaces;
 
 namespace RentWaveApp.Controllers
@@ -19,13 +20,19 @@ namespace RentWaveApp.Controllers
         [HttpGet("login")]
         public IActionResult Login()
         {
-            return View();
+
+            return View(new LoginVM());
         }
 
         [HttpPost("login")]
-        public IActionResult Login(string cardNumber)
+        public IActionResult Login(LoginVM loginVM)
         {
-            User user = _userService.GetUserByCardNumber(cardNumber);
+            if (!ModelState.IsValid)
+            {
+                return View(loginVM);
+            }
+
+            User user = _userService.GetUserByCardNumber(loginVM.CardNumber);
 
             if (user == null)
             {

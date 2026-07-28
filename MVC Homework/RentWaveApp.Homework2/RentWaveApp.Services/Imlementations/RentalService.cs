@@ -4,7 +4,6 @@ using RentWaveApp.Mapper;
 using RentWaveApp.Models.Dtos;
 using RentWaveApp.Models.ViewModels;
 using RentWaveApp.Services.Interfaces;
-using System.Net.Http.Headers;
 
 namespace RentWaveApp.Services.Imlementations
 {
@@ -34,6 +33,13 @@ namespace RentWaveApp.Services.Imlementations
             _rentalRepositroy.Create(rental);
 
             movie.Quantity -= 1;
+            
+            if(movie.Quantity <= 0)
+            {
+                movie.IsAvailable = false;
+                
+            }
+
             _movieRepositroy.Update(movie);
         }
         public List<RentalVM> GetActiveRentalsForUser(int userId)
@@ -65,6 +71,11 @@ namespace RentWaveApp.Services.Imlementations
 
             var movie = _movieRepositroy.GetById(rental.MovieId);
             movie.Quantity += 1;
+
+            if(movie.Quantity > 0)
+            {
+                movie.IsAvailable = true;
+            }
             _movieRepositroy.Update(movie);
         }
     }
