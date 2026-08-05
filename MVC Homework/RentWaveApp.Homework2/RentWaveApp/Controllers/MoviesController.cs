@@ -47,7 +47,7 @@ namespace RentWaveApp.Controllers
         public IActionResult SearchMovies(string searchTerm)
         {
             var movies = _movieService.GetAllMovies(null, searchTerm);
-            ViewBag.SearchTerm = searchTerm;
+            ViewBag.SearchTerm = searchTerm;    
             return View("GetAllMovies", movies);
         }
 

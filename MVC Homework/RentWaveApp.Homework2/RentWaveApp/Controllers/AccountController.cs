@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentWaveApp.Domain.Domain;
+using RentWaveApp.Models.SessionConstants;
 using RentWaveApp.Models.ViewModels;
 using RentWaveApp.Services.Interfaces;
 
@@ -20,13 +21,21 @@ namespace RentWaveApp.Controllers
         [HttpGet("login")]
         public IActionResult Login()
         {
-
+            if (HttpContext.Session.GetInt32(SessionConstants.UserId) != null)
+            {
+                return RedirectToAction("GetAllMovies", "Movies");
+            }
             return View(new LoginVM());
         }
 
         [HttpPost("login")]
         public IActionResult Login(LoginVM loginVM)
         {
+            if (HttpContext.Session.GetInt32(SessionConstants.UserId) != null)
+            {
+                return RedirectToAction("GetAllMovies", "Movies");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(loginVM);
@@ -37,10 +46,10 @@ namespace RentWaveApp.Controllers
             if (user == null)
             {
                 ViewBag.Error = "No user found with that card number.";
-                return View();
+                return View(loginVM);
             }
 
-            HttpContext.Session.SetInt32("UserId", user.Id);
+            HttpContext.Session.SetInt32(SessionConstants.UserId, user.Id);
 
             return RedirectToAction("GetAllMovies", "Movies");
         }
