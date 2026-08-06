@@ -27,42 +27,48 @@
         <button type="submit" class="btn btn-outline-danger">Logout</button>
     </form>
 </div>
-
-<table class="table table-striped table-bordered table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th>Title</th>
-            <th>Genre</th>
-            <th>Language</th>
-            <th>Available</th>
-            <th>Quantity</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var movie in Model)
-        {
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No movies found.</div>
+}
+else
+{
+    <table class="table table-striped table-bordered table-hover">
+        <thead class="table-dark">
             <tr>
-                <td>@movie.Title</td>
-                <td>@movie.Genre</td>
-                <td>@movie.Language</td>
-                <td>
-                    @if (movie.IsAvailable)
-                    {
-                        <span class="badge bg-success">Yes</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-danger">No</span>
-                    }
-                </td>
-                <td>@movie.Quantity</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@movie.Id" class="btn btn-sm btn-primary">
-                        Details
-                    </a>
-                </td>
+                <th>Title</th>
+                <th>Genre</th>
+                <th>Language</th>
+                <th>Available</th>
+                <th>Quantity</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var movie in Model)
+            {
+                <tr>
+                    <td>@movie.Title</td>
+                    <td>@movie.Genre</td>
+                    <td>@movie.Language</td>
+                    <td>
+                        @if (movie.IsAvailable)
+                        {
+                            <span class="badge bg-success">Yes</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">No</span>
+                        }
+                    </td>
+                    <td>@movie.Quantity</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@movie.Id" class="btn btn-sm btn-primary">
+                            Details
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

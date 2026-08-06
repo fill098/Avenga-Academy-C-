@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentWaveApp.Domain.Domain;
-using RentWaveApp.Models.SessionConstants;
 using RentWaveApp.Models.ViewModels;
 using RentWaveApp.Services.Interfaces;
 
@@ -21,7 +20,7 @@ namespace RentWaveApp.Controllers
         [HttpGet("login")]
         public IActionResult Login()
         {
-            if (HttpContext.Session.GetInt32(SessionConstants.UserId) != null)
+            if (HttpContext.Session.GetInt32(SessionKeys.UserId) != null)
             {
                 return RedirectToAction("GetAllMovies", "Movies");
             }
@@ -31,7 +30,7 @@ namespace RentWaveApp.Controllers
         [HttpPost("login")]
         public IActionResult Login(LoginVM loginVM)
         {
-            if (HttpContext.Session.GetInt32(SessionConstants.UserId) != null)
+            if (HttpContext.Session.GetInt32(SessionKeys.UserId) != null)
             {
                 return RedirectToAction("GetAllMovies", "Movies");
             }
@@ -49,7 +48,7 @@ namespace RentWaveApp.Controllers
                 return View(loginVM);
             }
 
-            HttpContext.Session.SetInt32(SessionConstants.UserId, user.Id);
+            HttpContext.Session.SetInt32(SessionKeys.UserId, user.Id);
 
             return RedirectToAction("GetAllMovies", "Movies");
         }

@@ -35,6 +35,11 @@ namespace RentWaveApp.Services.Imlementations
         public MovieVM GetMovieById(int id)
         {
             var movie = _movieRepository.GetById(id);
+
+            if (movie == null)
+            {
+                return null;
+            }
             var movieVM = RentWaveMapper.MapToMovieVM(movie);
             return movieVM;
         }
