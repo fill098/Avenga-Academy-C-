@@ -1,0 +1,18 @@
+﻿
+
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RentWaveApp.DataAccess\RentWaveApp.DataAccess.csproj" />
+    <ProjectReference Include="..\RentWaveApp.Mapper\RentWaveApp.Mapper.csproj" />
+    <ProjectReference Include="..\RentWaveApp.Models\RentWaveApp.Models.csproj" />
+  </ItemGroup>
+
+</Project>

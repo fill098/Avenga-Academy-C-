@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="RentWaveApp.DataAccess/RentWaveApp.DataAccess.csproj" />
+  <Project Path="RentWaveApp.Domain/RentWaveApp.Domain.csproj" />
+  <Project Path="RentWaveApp.Mapper/RentWaveApp.Mapper.csproj" Id="99b29aff-dc22-4308-8d11-6d8d85719fa0" />
+  <Project Path="RentWaveApp.Models/RentWaveApp.Models.csproj" Id="685c4512-b900-4eb4-97f0-f5557c6a1162" />
+  <Project Path="RentWaveApp.Services/RentWaveApp.Services.csproj" Id="11ddbd67-a33a-4078-a0ef-06d8e5f21de7" />
+  <Project Path="RentWaveApp/RentWaveApp.csproj" />
+</Solution>

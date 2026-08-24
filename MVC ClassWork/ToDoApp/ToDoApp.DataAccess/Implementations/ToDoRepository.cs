@@ -1,55 +1,55 @@
-﻿using ToDoApp.DataAccess.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using ToDoApp.DataAccess.Interfaces;
 using ToDoApp.Domain;
 
-namespace ToDoApp.DataAccess.Implementatons
+namespace ToDoApp.DataAccess.Implementations
 {
     public class ToDoRepository : IRepository<ToDo>
     {
+        private readonly ToDoAppDbContext _context;
+
+        public ToDoRepository(ToDoAppDbContext context)
+        {
+            _context = context;
+        }
+        public List<ToDo> GetAll()
+        {
+            var toDos = _context.ToDos
+                .Include(x => x.Status)
+                .Include(x => x.Status)
+                .ToList();
+            return toDos;
+        }
+        public ToDo GetById(int id)
+        {
+            var toDo = _context.ToDos
+                .Include(x => x.Status)
+                .Include(x => x.Category)
+                .FirstOrDefault(x => x.Id == id);
+            return toDo;
+        }
         public void Create(ToDo entity)
         {
-            if(entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
-            entity.Id = StaticDb.Todos.Last().Id + 1;
-            StaticDb.Todos.Add(entity);
+            _context.ToDos.Add(entity);
+            _context.SaveChanges();
+        }
+        public void Update(ToDo entity)
+        {
+            _context.ToDos.Update(entity);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-           ToDo toDo = StaticDb.Todos.FirstOrDefault(t => t.Id == id);
-            if (toDo == null)
+            var todo = GetById(id);
+            if (todo != null)
             {
-                throw new ArgumentNullException(nameof(id));
+                _context.ToDos.Remove(todo);
+                _context.SaveChanges();
             }
-            StaticDb.Todos.Remove(toDo);
-        }
-
-        public List<ToDo> GetAll()
-        {
-            return StaticDb.Todos;
-        }
-
-        public ToDo GetById(int id)
-        {
-            var toDo = StaticDb.Todos.FirstOrDefault(t => t.Id == id);
-            if (toDo == null)
-            {
-                throw new ArgumentNullException(nameof(id));
-            }
-            return toDo;
-        }
-      
-
-        public void Update(ToDo entity)
-        {
-            if(entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
-            ToDo toDo = GetById(entity.Id);
-            int index = StaticDb.Todos.IndexOf(toDo);
-            StaticDb.Todos[index] = entity;
         }
     }
 }

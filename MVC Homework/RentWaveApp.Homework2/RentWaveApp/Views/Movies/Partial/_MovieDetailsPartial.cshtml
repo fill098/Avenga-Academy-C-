@@ -1,0 +1,35 @@
+﻿@model MovieVM
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">@Model.Title</h4>
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Genre</dt>
+            <dd class="col-sm-9">@Model.Genre</dd>
+
+            <dt class="col-sm-3">Language</dt>
+            <dd class="col-sm-9">@Model.Language</dd>
+
+            <dt class="col-sm-3">Release Date</dt>
+            <dd class="col-sm-9">@Model.ReleaseDate.ToShortDateString()</dd>
+
+            <dt class="col-sm-3">Length</dt>
+            <dd class="col-sm-9">@Model.Length</dd>
+
+            <dt class="col-sm-3">Quantity</dt>
+            <dd class="col-sm-9">@Model.Quantity</dd>
+        </dl>
+
+        @if (Model.IsAvailable)
+        {
+            <form asp-controller="Rentals" asp-action="Rent" asp-route-movieId="@Model.Id" method="post" class="mt-3">
+                <button type="submit" class="btn btn-success">Rent</button>
+            </form>
+        }
+        else
+        {
+            <span class="badge bg-secondary mt-3">Not available</span>
+        }
+    </div>
+</div>
+<a asp-controller="Movies" asp-action="GetAllMovies" class="btn btn-outline-secondary mb-3">Back to Movies</a>

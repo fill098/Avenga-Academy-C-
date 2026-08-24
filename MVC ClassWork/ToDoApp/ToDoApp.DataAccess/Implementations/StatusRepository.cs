@@ -1,55 +1,51 @@
-﻿using ToDoApp.DataAccess.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using ToDoApp.DataAccess.Interfaces;
 using ToDoApp.Domain;
 
 namespace ToDoApp.DataAccess.Implementations
 {
     public class StatusRepository : IRepository<Status>
     {
+        private readonly ToDoAppDbContext _context;
+
+        public StatusRepository(ToDoAppDbContext context)
+        {
+            _context = context;
+        }
         public void Create(Status entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity), "Status item cannot be null.");
-            }
-            entity.Id = StaticDb.Statuses.Last().Id + 1;
-            StaticDb.Statuses.Add(entity);
+            _context.Statuses.Add(entity);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            Status status = StaticDb.Statuses.FirstOrDefault(s => s.Id == id);
-            if (status == null)
+            var status = GetById(id);
+            if (status != null)
             {
-                throw new ArgumentNullException(nameof(status), "Status item cannot be null.");
+                _context.Statuses.Remove(status);
+                _context.SaveChanges();
             }
-            StaticDb.Statuses.Remove(status);
         }
 
         public List<Status> GetAll()
         {
-            return StaticDb.Statuses.ToList();
+            var stauses = _context.Statuses.ToList();
+            return stauses;
         }
 
         public Status GetById(int id)
         {
-            var status = StaticDb.Statuses.FirstOrDefault(s => s.Id == id);
-            if (status == null)
-            {
-                throw new ArgumentNullException(nameof(status), "Status item cannot be null.");
-            }
+            var status = _context.Statuses.FirstOrDefault(x => x.Id == id);
             return status;
-
         }
 
         public void Update(Status entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity), "Status itme cannot be null.");
-            }
-            Status status = GetById(entity.Id);
-            int index = StaticDb.Statuses.IndexOf(status);
-            StaticDb.Statuses[index] = entity;
+            _context.Statuses.Update(entity);
+            _context.SaveChanges();
         }
     }
 }
