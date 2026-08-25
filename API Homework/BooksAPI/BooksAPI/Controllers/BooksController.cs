@@ -76,11 +76,19 @@ namespace BooksAPI.Controllers
             
             StaticDb.Books.Add(book);
             return StatusCode(StatusCodes.Status201Created, book);
-              
         }
 
+        [HttpPost("titles")]
+        public IActionResult PostTitles([FromBody]List<Book> books)
+        {
+            if (books.Count == 0 || books == null)
+            {
+                return BadRequest("You must have values for books");
+            }
+            var titles = books.Select(x => x.Title).ToList();
 
-
+            return Ok(titles);
+        }
 
     }
 }
