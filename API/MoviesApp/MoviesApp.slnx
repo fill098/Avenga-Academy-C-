@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="MoviesApp.DateAccess/MoviesApp.DateAccess.csproj" />
+  <Project Path="MoviesApp.Domain/MoviesApp.Domain.csproj" />
+  <Project Path="MoviesApp/MoviesApp.csproj" />
+</Solution>
