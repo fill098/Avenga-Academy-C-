@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="NotesApp.DataAccess/NotesApp.DataAccess.csproj" Id="bf836ab4-2d65-4e19-94fa-ad607a0b9a82" />
+  <Project Path="NotesApp.Domain/NotesApp.Domain.csproj" />
+  <Project Path="NotesApp/NotesApp.csproj" />
+</Solution>
