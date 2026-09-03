@@ -6,11 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-<<<<<<< HEAD
-=======
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.30" />
+    <ProjectReference Include="..\NotesApp.DataAccess\NotesApp.DataAccess.csproj" />
+    <ProjectReference Include="..\NotesApp.Dtos\NotesApp.Dtos.csproj" />
+    <ProjectReference Include="..\NotesApp.Mappers\NotesApp.Mappers.csproj" />
   </ItemGroup>
 
->>>>>>> origin/main
 </Project>
