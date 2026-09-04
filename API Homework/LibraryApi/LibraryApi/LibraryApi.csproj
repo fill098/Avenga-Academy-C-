@@ -8,14 +8,17 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.30">
-      <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NotesApp.Services\NotesApp.Services.csproj" />
+    <ProjectReference Include="..\LibraryApi.Domain\LibraryApi.Domain.csproj" />
+    <ProjectReference Include="..\LibraryApi.Dtos\LibraryApi.Dtos.csproj" />
+    <ProjectReference Include="..\LibraryApi.Services\LibraryApi.Services.csproj" />
+    <ProjectReference Include="..\LibraryApi.DataAccess\LibraryApi.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

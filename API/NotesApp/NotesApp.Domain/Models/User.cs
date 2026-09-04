@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-﻿namespace NotesApp.Domain.Models
-{
-    public class User : BaseEntity
-    {
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public string Username { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public List<Note> Notes { get; set; } = new();
-    }
-}
-=======
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -41,4 +28,3 @@ public class User : BaseEntity
     public List<Note> Notes { get; set; } = new();
 }
 
->>>>>>> origin/main

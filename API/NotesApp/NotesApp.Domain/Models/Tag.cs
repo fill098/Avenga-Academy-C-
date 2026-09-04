@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-﻿namespace NotesApp.Domain.Models
-{
-    public class Tag : BaseEntity
-    {
-        public string Name { get; set; } = string.Empty;
-        public string Color { get; set; } = string.Empty;
-    }
-}
-=======
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -26,4 +16,3 @@ public class Tag : BaseEntity
     //[Column("HexColor")] // specify the column name in the database if you want it to be different from the property name. In this case, we are keeping it the same.
     public string Color { get; set; } = string.Empty;
 }
->>>>>>> origin/main
