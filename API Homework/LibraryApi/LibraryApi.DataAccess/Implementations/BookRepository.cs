@@ -26,7 +26,7 @@ public class BookRepository : IBookRepository
     {
         return await _context.Books
             .Include(book => book.Author)
-            //.AsNoTracking()
+            .AsNoTracking()
             .FirstOrDefaultAsync(book => book.Id == id);
     }
 
