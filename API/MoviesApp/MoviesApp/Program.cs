@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using MoviesApp.DateAccess.Data;
+using MoviesApp.DateAccess.Implementaions;
+using MoviesApp.DateAccess.Interfaces;
+using MoviesApp.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +13,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<MoviesAppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("NotesAppDb")));
+builder.Services.AddDbContext<MoviesAppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MoviesAppDb")));
+
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<IActorRepository, ActorRepository>();
+builder.Services.AddScoped<IDirectorRepository, DirectorRepository>();
+builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+
+
+builder.Services.AddScoped<IMovieService, IMovieService>();
+
+
 
 
 var app = builder.Build();
