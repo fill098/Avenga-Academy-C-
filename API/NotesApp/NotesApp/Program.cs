@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using NotesApp.DataAccess.Data;
 using NotesApp.Helpers;
+using NotesApp.Services.Implementations;
+using NotesApp.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,11 +17,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<NotesAppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("NotesAppDb")));
 
 // ===> Register services
-builder.Services.AddRepositories();
-
-// ===> Register repositories
 builder.Services.AddApplicationServices();
 
+// ===> Register repositories
+builder.Services.AddRepositories();
 
 var app = builder.Build();
 

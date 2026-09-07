@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NotesApp.Helpers\NotesApp.Helpers.csproj" />
-    <ProjectReference Include="..\NotesApp.Services\NotesApp.Services.csproj" />
   </ItemGroup>
 
 </Project>
