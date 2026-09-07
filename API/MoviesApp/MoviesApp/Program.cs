@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MoviesApp.DateAccess.Data;
 using MoviesApp.DateAccess.Implementaions;
 using MoviesApp.DateAccess.Interfaces;
+using MoviesApp.Services.Implemetations;
 using MoviesApp.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +22,7 @@ builder.Services.AddScoped<IDirectorRepository, DirectorRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 
 
-builder.Services.AddScoped<IMovieService, IMovieService>();
+builder.Services.AddScoped<IMovieService, MovieService>();
 
 
 

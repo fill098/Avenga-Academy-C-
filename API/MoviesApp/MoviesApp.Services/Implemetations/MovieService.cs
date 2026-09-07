@@ -25,24 +25,24 @@ namespace MoviesApp.Services.Implemetations
             _genreRepository = genreRepository;
         }
 
-        public async Task<List<MovieReadDto>> GetAllAsync(int? genreId, int? year, string? title)
+        public async Task<List<MovieReadDto>> GetAllAsync(int? genreId = null, int? year = null, string? title = null)
         {
             var movies = _moveRepository.GetAllAsync();
             List<Movie> moviesDb = await movies;
 
             if (genreId.HasValue)
             {
-                moviesDb.Where(movie => movie.GenreId == genreId).ToList();
+               moviesDb = moviesDb.Where(movie => movie.GenreId == genreId).ToList();
             }
 
             if (year.HasValue)
             {
-                moviesDb.Where(movie => movie.Year == year).ToList();
+                moviesDb = moviesDb.Where(movie => movie.Year == year).ToList();
             }
 
             if (!title.IsNullOrEmpty())
             {
-               moviesDb.Where(movie => movie.Title.Contains(title)).ToList();
+               moviesDb = moviesDb.Where(movie => movie.Title.Contains(title)).ToList();
             }
 
             List<MovieReadDto> moviesDto = moviesDb.Select(movie => new MovieReadDto
@@ -53,7 +53,9 @@ namespace MoviesApp.Services.Implemetations
                 Year = movie.Year,
                 DurationMinutes = movie.DurationMinutes,
                 GenreName = movie.Genre.Name,
-                DirectorName = movie.Director.FirstName + " " + movie.Director.LastName,
+                DirectorName = movie.Director != null
+                ? $"{movie.Director.FirstName} {movie.Director.LastName}" 
+                :"Unknown",
                 ActorNames = movie.Actors.Where(movie => movie != null).Select(actor => actor.FirstName + " " + actor.LastName).ToList()
             }).ToList();
 
