@@ -4,5 +4,7 @@ namespace NotesApp.DataAccess.Interfaces;
 
 public interface IUserRepository : IRepository<User>
 {
-    Task<bool> CheckUsernameExistsAsync(string userName);
+    Task<bool> CheckUsernameExistsAsync(string username);
+    
+    Task<User?> GetByUsernameAsync(string username);
 }
