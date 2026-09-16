@@ -1,7 +1,6 @@
-﻿namespace NotesApp.Dtos
+﻿namespace NotesApp.Dtos;
+
+public class LoginResponseDto
 {
-    public class LoginResponseDto
-    {
-        public string Token { get; set; }
-    }
+    public string Token { get; set; }
 }

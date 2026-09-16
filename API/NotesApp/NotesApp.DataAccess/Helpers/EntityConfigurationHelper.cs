@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using NotesApp.Domain.Enums;
 using NotesApp.Domain.Models;
 
@@ -18,7 +18,7 @@ internal static class EntityConfigurationHelper
 
         // Better way to configure the Note entity using the Fluent API
         // FLUENT API - everything about the Note table, in one place.
-        // User and Tag are configured on the classes themselves with Data Annotations (Attributes). Two styles, same result.
+        // Every entity is configured this way: the model classes stay plain C#, the database rules all live here.
         modelBuilder.Entity<Note>(entity =>
         {
             entity.ToTable("Note");
@@ -65,8 +65,67 @@ internal static class EntityConfigurationHelper
         });
     }
 
+    public static void ConfigureUser(this ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>(entity =>
+        {
+            // Same as [Table("User")] on the class was.
+            entity.ToTable("User");
+
+            // IsRequired() => NOT NULL. HasMaxLength(100) => nvarchar(100) instead of nvarchar(max).
+            entity.Property(user => user.FirstName)
+                  .IsRequired()
+                  .HasMaxLength(100);
+
+            entity.Property(user => user.LastName)
+                  .IsRequired()
+                  .HasMaxLength(100);
+
+            entity.Property(user => user.Username)
+                  .IsRequired()
+                  .HasMaxLength(30);
+
+            entity.Property(user => user.Password)
+                  .IsRequired()
+                  .HasMaxLength(100);
+
+            // FullName is computed in C#, so it gets no column. This is the [NotMapped] of the Fluent API.
+            // Leave it out and EF Core fails at startup: it cannot map a property that has no setter.
+            entity.Ignore(user => user.FullName);
+
+            // Two users cannot share a username - the database enforces it, not only our code.
+            entity.HasIndex(user => user.Username)
+                  .IsUnique();
+
+            // The other side of the 1:M (User -> Notes) is already configured in ConfigureNote().
+            // Configure a relationship once, from one side only.
+        });
+    }
+
+    public static void ConfigureTag(this ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Tag>(entity =>
+        {
+            entity.ToTable("Tag");
+
+            entity.Property(tag => tag.Name)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+            entity.Property(tag => tag.Color)
+                  .IsRequired()
+                  .HasMaxLength(20);
+            // .HasColumnName("HexColor") would give the column a different name than the property. We keep them the same.
+
+            entity.HasIndex(tag => tag.Name)
+                  .IsUnique();
+        });
+    }
+
     public static void SeedData(this ModelBuilder modelBuilder)
     {
+        DateTime seededAt = new DateTime(2026, 8, 26, 18, 0, 0, DateTimeKind.Utc);
+
         modelBuilder.Entity<User>().HasData(
             new User
             {
@@ -74,7 +133,9 @@ internal static class EntityConfigurationHelper
                 FirstName = "Bob",
                 LastName = "Bobsky",
                 Password = "SuperSecret123",
-                Username = "bob"
+                Username = "bob",
+                CreatedDate = seededAt,
+                UpdatedDate = seededAt
             },
             new User
             {
@@ -82,30 +143,32 @@ internal static class EntityConfigurationHelper
                 FirstName = "Petko",
                 LastName = "Petkovsky",
                 Password = "AlsoSecret456",
-                Username = "petko"
+                Username = "petko",
+                CreatedDate = seededAt,
+                UpdatedDate = seededAt
             }
         );
 
         modelBuilder.Entity<Tag>().HasData(
-            new Tag { Id = 1, Name = "Homework", Color = "cyan" },
-            new Tag { Id = 2, Name = "Avenga", Color = "orange" },
-            new Tag { Id = 3, Name = "Healthy", Color = "green" },
-            new Tag { Id = 4, Name = "Exercise", Color = "blue" },
-            new Tag { Id = 5, Name = "Urgent", Color = "red" }
+            new Tag { Id = 1, Name = "Homework", Color = "cyan", CreatedDate = seededAt, UpdatedDate = seededAt },
+            new Tag { Id = 2, Name = "Avenga", Color = "orange", CreatedDate = seededAt, UpdatedDate = seededAt },
+            new Tag { Id = 3, Name = "Healthy", Color = "green", CreatedDate = seededAt, UpdatedDate = seededAt },
+            new Tag { Id = 4, Name = "Exercise", Color = "blue", CreatedDate = seededAt, UpdatedDate = seededAt },
+            new Tag { Id = 5, Name = "Urgent", Color = "red", CreatedDate = seededAt, UpdatedDate = seededAt }
         );
 
         modelBuilder.Entity<Note>().HasData(
-            new Note { Id = 1, Text = "Do Homework", Priority = Priority.High, UserId = 1 },
-            new Note { Id = 2, Text = "Drink more water", Priority = Priority.Medium, UserId = 1 },
-            new Note { Id = 3, Text = "Go to the gym", Priority = Priority.Low, UserId = 2 }
+            new Note { Id = 1, Text = "Do Homework", Priority = Priority.High, UserId = 1, CreatedDate = seededAt, UpdatedDate = seededAt },
+            new Note { Id = 2, Text = "Drink more water", Priority = Priority.Medium, UserId = 1, CreatedDate = seededAt, UpdatedDate = seededAt },
+            new Note { Id = 3, Text = "Go to the gym", Priority = Priority.Low, UserId = 2, CreatedDate = seededAt, UpdatedDate = seededAt }
         );
 
         modelBuilder.Entity("NoteTag").HasData(
-            new { NoteId = 1, TagId = 1 },    
-            new { NoteId = 1, TagId = 2 },    
-            new { NoteId = 2, TagId = 3 },    
-            new { NoteId = 3, TagId = 4 },    
-            new { NoteId = 3, TagId = 5 }    
+            new { NoteId = 1, TagId = 1 },
+            new { NoteId = 1, TagId = 2 },
+            new { NoteId = 2, TagId = 3 },
+            new { NoteId = 3, TagId = 4 },
+            new { NoteId = 3, TagId = 5 }
         );
     }
 }

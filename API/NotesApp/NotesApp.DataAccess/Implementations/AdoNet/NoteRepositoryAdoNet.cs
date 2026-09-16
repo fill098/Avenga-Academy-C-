@@ -256,5 +256,15 @@ public class NoteRepositoryAdoNet : INoteRepository
     {
         throw new NotImplementedException();
     }
+
+    public Task<List<NoteDto>> GetAllByPriorityAsync(int userId, Priority? priority = null)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<Note>> GetAllAsync(int userId)
+    {
+        throw new NotImplementedException();
+    }
     #endregion
 }

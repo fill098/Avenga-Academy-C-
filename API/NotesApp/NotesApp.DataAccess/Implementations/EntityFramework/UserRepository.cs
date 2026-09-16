@@ -51,11 +51,15 @@ public class UserRepository : IUserRepository
 
     public async Task<bool> CheckUsernameExistsAsync(string username)
     {
-        return await _context.Users.AnyAsync(u => u.Username == username);
+        return await _context.Users.AnyAsync(u => u.Username.ToLower() == username.ToLower());
     }
 
     public async Task<User?> GetByUsernameAsync(string username)
     {
-        return await _context.Users.FirstOrDefaultAsync(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+        
+        //return await _context.Users
+        //    .FirstOrDefaultAsync(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+        return await _context.Users
+            .FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
     }
 }

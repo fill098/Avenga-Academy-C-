@@ -37,11 +37,11 @@ public class NoteRepository : INoteRepository
         return await notes.ToListAsync();
     }
 
-    public async Task<List<NoteDto>> GetAllByPriorityAsync(Priority? priority = null)
+    public async Task<List<NoteDto>> GetAllByPriorityAsync(int userId, Priority? priority = null)
     {
         // 1) Build the query
         // IQueryable is a recipe for a query, not the query itself. The database is not touched until step 4.
-        IQueryable<Note> query = _context.Notes;
+        IQueryable<Note> query = _context.Notes.Where(note => note.UserId == userId);
 
         // 2) Filter (if needed)
         if (priority.HasValue)
@@ -119,4 +119,15 @@ public class NoteRepository : INoteRepository
         await _context.SaveChangesAsync();
     }
 
+    public async Task<List<Note>> GetAllAsync(int userId)
+    {
+        var notes = await _context.Notes
+          .AsNoTracking() 
+          .Where(note => note.UserId == userId)
+          .Include(note => note.Tags)
+          .Include(note => note.User)
+          .ToListAsync();
+
+        return notes;
+    }
 }

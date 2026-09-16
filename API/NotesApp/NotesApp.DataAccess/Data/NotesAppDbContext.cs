@@ -29,8 +29,8 @@ namespace NotesApp.DataAccess.Data
         {
             // ===> Configure entities 
             modelBuilder.ConfigureNote();
-            //modelBuilder.ConfigureTag();
-            //modelBuilder.ConfigureUser();
+            modelBuilder.ConfigureUser();
+            modelBuilder.ConfigureTag();
 
             // ===> Seed data
             modelBuilder.SeedData();

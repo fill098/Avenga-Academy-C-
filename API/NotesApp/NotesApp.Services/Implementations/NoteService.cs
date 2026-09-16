@@ -24,16 +24,16 @@ public class NoteService : INoteService
         _tagRepository = tagRepository;
     }
 
-    public async Task<List<NoteDto>> GetAllNotesAsync(Priority? priority = null)
+    public async Task<List<NoteDto>> GetAllNotesAsync(int userId, Priority? priority = null)
     {
         // Optional filter
         if (priority.HasValue)
         {
-            return await _noteRepository.GetAllByPriorityAsync(priority.Value);
+            return await _noteRepository.GetAllByPriorityAsync(userId, priority.Value);
         }
 
         // 1) Get all notes from db
-        var notesDbTask = _noteRepository.GetAllAsync();
+        var notesDbTask = _noteRepository.GetAllAsync(userId);
         List<Note> notesDb = await notesDbTask;
 
         // 2) Map notes from db to dto
@@ -42,7 +42,7 @@ public class NoteService : INoteService
         return noteDtos;
     }
 
-    public async Task<NoteDto> GetNoteByIdAsync(int id)
+    public async Task<NoteDto> GetNoteByIdAsync(int id, int userId)
     {
         Note? noteDb = await _noteRepository.GetByIdAsync(id);
 
@@ -50,20 +50,21 @@ public class NoteService : INoteService
         {
             throw new NoteNotFoundException($"Note with Id {id} not found.");
         }
+        EnsureOwner(noteDb, userId);
 
         return noteDb.ToNoteDto();
     }
 
-    public async Task<NoteDto> AddNoteAsync(AddNoteDto addNoteDto)
+    public async Task<NoteDto> AddNoteAsync(int userId, AddNoteDto addNoteDto)
     {
         // 1) Validate
         ValidateText(addNoteDto.Text);
         ValidatePriority(addNoteDto.Priority);
 
-        User? user = await _userRepository.GetByIdAsync(addNoteDto.UserId);
+        User? user = await _userRepository.GetByIdAsync(userId);
         if (user is null)
         {
-            throw new UserNotFoundException($"User with id {addNoteDto.UserId} does not exist."); 
+            throw new UserNotFoundException($"User with id {userId} does not exist."); 
         }
 
         List<Tag> tags = await _tagRepository.GetByIdsAsync(addNoteDto.TagIds);
@@ -71,6 +72,7 @@ public class NoteService : INoteService
         // 2) Map
         Note newNote = addNoteDto.ToNote();
         newNote.Tags = tags;
+        newNote.UserId = userId;
         newNote.User = user;
 
         // 3) Save
@@ -79,7 +81,7 @@ public class NoteService : INoteService
         return newNote.ToNoteDto();
     }
 
-    public async Task UpdateNoteAsync(UpdateNoteDto updateNoteDto)
+    public async Task UpdateNoteAsync(UpdateNoteDto updateNoteDto, int userId)
     {
         // 1) Validate
         Note? noteDb = await _noteRepository.GetByIdAsync(updateNoteDto.Id);
@@ -89,6 +91,7 @@ public class NoteService : INoteService
             throw new NoteNotFoundException($"Note with id {updateNoteDto.Id} was not found.");
         }
 
+        EnsureOwner(noteDb, userId);
         ValidateText(updateNoteDto.Text);
         ValidatePriority(updateNoteDto.Priority);
 
@@ -102,7 +105,7 @@ public class NoteService : INoteService
         await _noteRepository.UpdateAsync(noteDb);
     }
 
-    public async Task DeleteNoteAsync(int id)
+    public async Task DeleteNoteAsync(int id, int userId)
     {
         Note? noteDb = await _noteRepository.GetByIdAsync(id);
 
@@ -111,6 +114,7 @@ public class NoteService : INoteService
             throw new NoteNotFoundException($"Note with id {id} was not found.");
         }
 
+        EnsureOwner(noteDb, userId);
         await _noteRepository.DeleteAsync(noteDb);
     }
 
@@ -136,6 +140,14 @@ public class NoteService : INoteService
         if (!Enum.IsDefined(priority))
         {
             throw new NoteDataException($"Priority '{priority}' is not a valid value.");
+        }
+    }
+
+    private static void EnsureOwner(Note note, int userId)
+    {
+        if (note.UserId != userId)
+        {
+            throw new NoteAccessDeniedException($"Note with id {note.Id} does not belong to you.");
         }
     }
 

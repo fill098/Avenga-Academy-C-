@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NotesApp.Domain.Enums;
 using NotesApp.Dtos;
+using NotesApp.Helpers;
 using NotesApp.Services.CustomExceptions;
 using NotesApp.Services.Interfaces;
 
 namespace NotesApp.Controllers;
 
+[Authorize] // This attribute indicates that all actions in this controller require authentication by default
 [Route("api/[controller]")]
 [ApiController]
 public class NotesController : ControllerBase
@@ -25,7 +28,11 @@ public class NotesController : ControllerBase
     {
         try
         {
-            List<NoteDto> result = await _noteService.GetAllNotesAsync(priority);
+            //Claim? userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            //int userId = int.Parse(userIdClaim?.Value ?? throw new InvalidOperationException("User ID claim not found"));
+            // DRY principle => solved with extension method GetUserId()
+            int userId = User.GetUserId();
+            List<NoteDto> result = await _noteService.GetAllNotesAsync(userId, priority);
             return Ok(result);
         }
         catch (Exception ex)
@@ -44,8 +51,12 @@ public class NotesController : ControllerBase
     {
         try
         {
-            NoteDto noteDto = await _noteService.GetNoteByIdAsync(id);
+            NoteDto noteDto = await _noteService.GetNoteByIdAsync(id, User.GetUserId());
             return Ok(noteDto);
+        }
+        catch (NoteAccessDeniedException ex)
+        {
+            return Problem(detail: ex.Message, statusCode: StatusCodes.Status403Forbidden);
         }
         catch (NoteNotFoundException ex)
         {
@@ -69,7 +80,8 @@ public class NotesController : ControllerBase
     {
         try
         {
-            NoteDto createdDto = await _noteService.AddNoteAsync(noteDto);
+            int userId = User.GetUserId();
+            NoteDto createdDto = await _noteService.AddNoteAsync(userId, noteDto);
 
             return Ok(createdDto);
             //return CreatedAtAction(nameof(GetById), new { id = noteDto.Id }, noteDto);
@@ -104,7 +116,7 @@ public class NotesController : ControllerBase
     {
         try
         {
-            await _noteService.UpdateNoteAsync(updateNoteDto);
+            await _noteService.UpdateNoteAsync(updateNoteDto, User.GetUserId());
 
             // 204: it worked, and there is nothing worth sending back.
             return NoContent();
@@ -119,6 +131,13 @@ public class NotesController : ControllerBase
                 statusCode: StatusCodes.Status404NotFound
             );
             //return NotFound(e.NoteMessage);
+        }
+        catch (NoteAccessDeniedException ex)
+        {
+            return Problem(
+                detail: ex.Message,
+                statusCode: StatusCodes.Status403Forbidden
+            );
         }
         catch (NoteDataException e)
         {
@@ -142,7 +161,7 @@ public class NotesController : ControllerBase
     {
         try
         {
-            await _noteService.DeleteNoteAsync(id);
+            await _noteService.DeleteNoteAsync(id, User.GetUserId());
             return NoContent();
         }
         catch (NoteNotFoundException e)
@@ -151,6 +170,10 @@ public class NotesController : ControllerBase
                 detail: e.Message,
                 statusCode: StatusCodes.Status404NotFound
             );
+        }
+        catch (NoteAccessDeniedException ex)
+        {
+            return Problem(detail: ex.Message, statusCode: StatusCodes.Status403Forbidden);
         }
         catch (Exception)
         {

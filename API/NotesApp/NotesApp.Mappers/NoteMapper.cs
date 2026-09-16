@@ -15,7 +15,9 @@ public static class NoteMapper
             UserFullName = note.User is null
                 ? "Unknown"
                 : note.User.FullName,
-            Tags = note.Tags.ToTagDtoList()
+            Tags = note.Tags.ToTagDtoList(),
+            CreatedDate = note.CreatedDate,
+            UpdatedDate = note.UpdatedDate,
         };
     }
 
@@ -33,7 +35,6 @@ public static class NoteMapper
         {
             Text = addNoteDto.Text,
             Priority = addNoteDto.Priority,
-            UserId = addNoteDto.UserId,
         };
     }
 
