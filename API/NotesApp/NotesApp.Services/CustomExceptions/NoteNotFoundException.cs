@@ -2,10 +2,8 @@
 
 public class NoteNotFoundException : Exception
 {
-    public string NoteMessage { get; set; }
     public string DefaultMessage { get; } = "Note not found.";
-    public NoteNotFoundException(string message)
+    public NoteNotFoundException(string message) : base(message)
     {
-        NoteMessage = message ?? DefaultMessage;
     }
 }

@@ -14,10 +14,14 @@ namespace NotesApp.Controllers;
 public class NotesController : ControllerBase
 {
     private readonly INoteService _noteService;
+    private readonly ILogger<NotesController> _logger;
 
-    public NotesController(INoteService noteService)
+    public NotesController(
+        INoteService noteService, 
+        ILogger<NotesController> logger)
     {
         _noteService = noteService;
+        _logger = logger;
     }
 
     // GET: /api/notes
@@ -37,7 +41,8 @@ public class NotesController : ControllerBase
         }
         catch (Exception ex)
         {
-            // Logging...
+            _logger.LogError(ex, "Unexpected error while reading notes");
+
             return Problem(
                 detail: "An error occurred, please contact the administrator.",
                 statusCode: StatusCodes.Status500InternalServerError
@@ -61,7 +66,7 @@ public class NotesController : ControllerBase
         catch (NoteNotFoundException ex)
         {
             return Problem(
-                detail: ex.NoteMessage,
+                detail: ex.Message,
                 statusCode: StatusCodes.Status404NotFound
             );
         }
@@ -127,7 +132,7 @@ public class NotesController : ControllerBase
             // 1) Problem is more flexible, it can carry a detail message, and it can be extended to carry a traceId, a link to documentation, etc.
             // 2) It offers a more consistent way to return errors for the entire API
             return Problem(
-                detail: e.NoteMessage,
+                detail: e.Message,
                 statusCode: StatusCodes.Status404NotFound
             );
             //return NotFound(e.NoteMessage);
