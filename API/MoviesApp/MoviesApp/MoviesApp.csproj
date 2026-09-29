@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MoviesApp.Common\MoviesApp.Common.csproj" />
     <ProjectReference Include="..\MoviesApp.Services\MoviesApp.Services.csproj" />
   </ItemGroup>
 

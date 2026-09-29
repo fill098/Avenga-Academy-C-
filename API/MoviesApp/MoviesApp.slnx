@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="MoviesApp.Common/MoviesApp.Common.csproj" Id="6325ad25-98a5-42b3-ab4f-9d494e303095" />
   <Project Path="MoviesApp.DateAccess/MoviesApp.DateAccess.csproj" />
   <Project Path="MoviesApp.Domain/MoviesApp.Domain.csproj" />
   <Project Path="MoviesApp.Dto/MoviesApp.Dto.csproj" Id="da09de1e-62df-4777-bb32-2e8c60d8d1f7" />

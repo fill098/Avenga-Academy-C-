@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MoviesApp.Common.Exceptions;
 using MoviesApp.Domain.Models;
 using MoviesApp.Dto.Dto;
 using MoviesApp.Services.Interfaces;
@@ -27,8 +28,30 @@ namespace MoviesApp.Controllers
             catch (Exception)
             {
 
-               return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred, please contact the administrator.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred, please contact the administrator.");
             }
+        }
+
+
+        [HttpGet("{Id}")]
+        public async Task<ActionResult<MovieReadDto>> GetById(int id)
+        {
+
+            try
+            {
+                MovieReadDto result = await _movieService.GetById(id);
+                return Ok(result);  
+            }
+            catch(NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred, please contact the administrator.");
+            }
+           
         }
 
     }

@@ -47,5 +47,24 @@ namespace MoviesApp.DateAccess.Implementaions
         {
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<Movie>> GetAllAsync(int? genreId, int? year, string? title)
+        {
+            IQueryable<Movie> query = _context.Movies
+                            .Include(m => m.Genre)
+                            .Include(m => m.Director)
+                            .Include(m => m.Actors);
+
+            if (genreId.HasValue)
+                query = query.Where(m => m.GenreId == genreId.Value);
+
+            if (year.HasValue)
+                query = query.Where(m => m.Year == year.Value);
+
+            if (!string.IsNullOrEmpty(title))
+                query = query.Where(m => m.Title.Contains(title));
+
+            return await query.ToListAsync();
+        }
     }
 }
