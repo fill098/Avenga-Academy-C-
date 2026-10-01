@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using MoviesApp.Common.Exceptions;
 using MoviesApp.Domain.Models;
 using MoviesApp.Dto.Dto;
@@ -33,7 +34,7 @@ namespace MoviesApp.Controllers
         }
 
 
-        [HttpGet("{Id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<MovieReadDto>> GetById(int id)
         {
 
@@ -53,6 +54,31 @@ namespace MoviesApp.Controllers
             }
            
         }
+
+        [HttpPost]
+        public async Task<ActionResult<MovieReadDto>> Create([FromBody] MovieCreateDto createDto)
+        {
+            try
+            {
+                MovieReadDto readDto = await _movieService.CreateAsync(createDto);
+            
+                return CreatedAtAction(nameof(GetById),new { id = readDto.Id },readDto);
+
+            }
+            catch ( BadRequestException ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred, please contact the administrator.");
+            }
+        }
+
+
+        []
+
 
     }
 }

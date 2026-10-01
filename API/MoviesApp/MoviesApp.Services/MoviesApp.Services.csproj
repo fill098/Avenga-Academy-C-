@@ -10,6 +10,7 @@
     <ProjectReference Include="..\MoviesApp.Common\MoviesApp.Common.csproj" />
     <ProjectReference Include="..\MoviesApp.DateAccess\MoviesApp.DateAccess.csproj" />
     <ProjectReference Include="..\MoviesApp.Dto\MoviesApp.Dto.csproj" />
+    <ProjectReference Include="..\MoviesApp.Mapper\MoviesApp.Mapper.csproj" />
   </ItemGroup>
 
 </Project>
