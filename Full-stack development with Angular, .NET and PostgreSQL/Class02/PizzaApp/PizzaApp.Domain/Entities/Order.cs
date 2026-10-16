@@ -5,7 +5,7 @@ namespace PizzaApp.Domain.Entities;
 
 public class Order : BaseEntity
 {
-    public string AddresTo { get; set; }
+    public string AddressTo { get; set; } = string.Empty;
     public string? Description { get; set; }
     public decimal TotalPrice { get; set; }
     public OrderStatus Status { get; set; } = OrderStatus.Pending;

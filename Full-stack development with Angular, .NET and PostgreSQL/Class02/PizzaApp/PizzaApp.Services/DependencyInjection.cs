@@ -4,12 +4,14 @@ using PizzaApp.Services.Implementations;
 
 namespace PizzaApp.Services;
 
-public static class DependecyInjection
+public static class DependencyInjection
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddScoped<ITokenSevice, TokenService>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IPizzaService, PizzaService>();
+        services.AddScoped<IOrderService, OrderService>();
         return services;
     }
 }

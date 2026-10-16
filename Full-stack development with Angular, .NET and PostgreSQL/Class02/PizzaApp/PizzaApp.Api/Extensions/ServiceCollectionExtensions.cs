@@ -1,7 +1,10 @@
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using PizzaApp.Api.ExceptionHandling;
+using PizzaApp.Api.Security;
 using PizzaApp.Dtos.Common;
+using PizzaApp.Services.Abstractions;
 
 namespace PizzaApp.Api.Extensions;
 
@@ -10,6 +13,11 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddApi(this IServiceCollection services)
     {
         services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                // Enums as text ("TomatoSauce", "Pending") instead of numbers; numbers and unknown names are rejected (400)
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(allowIntegerValues: false));
+            })
             .ConfigureApiBehaviorOptions(options =>
             {
                 // When a controller action receives an invalid DTO, ASP.NET Core automatically returns a 400 Bad Request with a ProblemDetails body.
@@ -26,7 +34,7 @@ public static class ServiceCollectionExtensions
 
         // Register CurrentUser service to access the current user's information
         services.AddHttpContextAccessor();
-        //services.AddScoped<ICurrentUser, CurrentUser>();
+        services.AddScoped<ICurrentUser, CurrentUser>();
 
         services.AddJwtAuthentication();
 

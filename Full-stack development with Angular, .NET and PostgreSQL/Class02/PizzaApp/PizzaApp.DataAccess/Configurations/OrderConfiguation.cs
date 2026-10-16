@@ -10,7 +10,7 @@ public class OrderConfiguation : IEntityTypeConfiguration<Order>
     {
         builder.HasKey(order => order.Id);
 
-        builder.Property(order => order.AddresTo)
+        builder.Property(order => order.AddressTo)
             .IsRequired()
             .HasMaxLength(200);
 
