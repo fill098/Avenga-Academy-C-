@@ -1,9 +1,8 @@
-﻿namespace PizzaApp.Shared.Exceptions
+namespace PizzaApp.Shared.Exceptions;
+
+public abstract class AppException : Exception
 {
-    public class AppException : Exception
+    protected AppException(string message) : base(message)
     {
-        protected AppException(string message) : base(message)
-        {
-        }
     }
 }

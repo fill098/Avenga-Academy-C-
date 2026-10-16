@@ -1,9 +1,8 @@
-﻿namespace PizzaApp.Shared.Exceptions
+namespace PizzaApp.Shared.Exceptions;
+
+public class ConflictException : AppException
 {
-    public class ConflictException : AppException
+    public ConflictException(string message) : base(message)
     {
-        public ConflictException(string message) : base(message)
-        {
-        }
     }
 }

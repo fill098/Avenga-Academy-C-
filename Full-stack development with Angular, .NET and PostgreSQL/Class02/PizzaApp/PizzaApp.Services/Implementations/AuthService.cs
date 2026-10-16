@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+using MapsterMapper;
+using Microsoft.AspNetCore.Identity;
 using PizzaApp.Domain.Constatns;
 using PizzaApp.Domain.Entities;
 using PizzaApp.Dtos.Auth;
@@ -15,10 +16,13 @@ public class AuthService : IAuthService
 
     private readonly ITokenSevice _tokenService;
 
-    public AuthService(ITokenSevice tokenSevice, UserManager<User> user)
+    private readonly IMapper _mapper;
+
+    public AuthService(ITokenSevice tokenSevice, UserManager<User> user, IMapper mapper)
     {
         _tokenService = tokenSevice;
         _userMenager = user;
+        _mapper = mapper;
     }
     public async Task<UserDto> RegisterAsync(RegisterRequsetDto requset)
     {
@@ -38,13 +42,9 @@ public class AuthService : IAuthService
 
         await _userMenager.AddToRoleAsync(user, Roles.Customer);
 
-        var userDto = new UserDto
-        {
-            Id = user.Id,
-            Email = user.Email,
-            UserName = user.UserName,
-            Roles = [Roles.Customer]
-        };
+        var userDto = _mapper.Map<UserDto>(user);
+        userDto.Roles = [Roles.Customer];
+
         return userDto;
     }
 
@@ -55,7 +55,7 @@ public class AuthService : IAuthService
         if (user is null || !await _userMenager.CheckPasswordAsync(user, requset.Password))
         {
             throw new UnauthorizedException("Invalid username or password.");
-            
+
         }
 
         var roles = await _userMenager.GetRolesAsync(user);
@@ -67,6 +67,6 @@ public class AuthService : IAuthService
             ExpiresAt = tokenResult.EXpiresEt,
             UserName = user.UserName,
             Roles = [.. roles]
-        }; 
+        };
     }
 }

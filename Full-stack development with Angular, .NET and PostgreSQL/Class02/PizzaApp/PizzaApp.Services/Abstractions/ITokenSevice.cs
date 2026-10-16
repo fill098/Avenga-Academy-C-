@@ -1,10 +1,9 @@
-﻿using PizzaApp.Domain.Entities;
+using PizzaApp.Domain.Entities;
 using PizzaApp.Services.Models;
 
-namespace PizzaApp.Services.Abstractions
+namespace PizzaApp.Services.Abstractions;
+
+public interface ITokenSevice
 {
-    public interface ITokenSevice
-    {
-        TokenResult CreateToken(User user, IEnumerable<string> roles);
-    }
+    TokenResult CreateToken(User user, IEnumerable<string> roles);
 }

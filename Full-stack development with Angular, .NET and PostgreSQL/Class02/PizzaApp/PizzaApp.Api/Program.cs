@@ -1,5 +1,6 @@
 using PizzaApp.Api.Extensions;
 using PizzaApp.DataAccess;
+using PizzaApp.Mappers;
 using PizzaApp.Services;
 
 
@@ -9,15 +10,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddDataAccess(builder.Configuration)
+    .AddMappers()
     .AddServices()
-    .AddJwtAuthentication()
-    .AddOpenApiDocumentation();
-// TODO : Create AddApi extension method
+    .AddApi();
+
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+app.UseExceptionHandler(_ => { });
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

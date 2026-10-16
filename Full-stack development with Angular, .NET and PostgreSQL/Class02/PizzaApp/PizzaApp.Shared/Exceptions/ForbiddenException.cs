@@ -1,9 +1,8 @@
-﻿namespace PizzaApp.Shared.Exceptions
+namespace PizzaApp.Shared.Exceptions;
+
+public class ForbiddenException : AppException
 {
-    public class ForbiddenException : AppException
+    public ForbiddenException(string message = "You don't have permission to do this.") : base(message)
     {
-        public ForbiddenException(string message = "You don't have permission to do this.") : base(message)
-        {
-        }
     }
 }

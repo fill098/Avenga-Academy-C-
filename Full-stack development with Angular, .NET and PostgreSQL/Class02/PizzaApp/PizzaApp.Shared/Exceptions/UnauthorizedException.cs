@@ -1,9 +1,8 @@
-﻿namespace PizzaApp.Shared.Exceptions
+namespace PizzaApp.Shared.Exceptions;
+
+public class UnauthorizedException : AppException
 {
-    public class UnauthorizedException : AppException
+    public UnauthorizedException(string message) : base(message)
     {
-        public UnauthorizedException(string message) : base(message)
-        {
-        }
     }
 }

@@ -1,12 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace PizzaApp.Dtos.Auth
+namespace PizzaApp.Dtos.Auth;
+
+public class LoginRequestDto
 {
-    public class LoginRequestDto
-    {
-        [Required]
-        public string UserName { get; set; }
-        [Required]
-        public string Password { get; set; }
-    }
+    [Required]
+    public string UserName { get; set; }
+    [Required]
+    public string Password { get; set; }
 }

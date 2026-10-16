@@ -1,50 +1,49 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PizzaApp.Shared.Settings;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
 
-namespace PizzaApp.Api.Extensions
+namespace PizzaApp.Api.Extensions;
+
+public static class AuthentitacionExtensions
 {
-    public static class AuthentitacionExtensions
+    public static IServiceCollection AddJwtAuthentication(this IServiceCollection services)
     {
-        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services)
-        {
-            services.AddOptions<JwtSettings>()
-                .BindConfiguration(JwtSettings.SectionName)
-                .ValidateDataAnnotations()
-                .ValidateOnStart();
+        services.AddOptions<JwtSettings>()
+            .BindConfiguration(JwtSettings.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer();
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer();
 
-            services.AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme)
-                .Configure<IOptions<JwtSettings>>((options, jwtSettings) =>
+        services.AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme)
+            .Configure<IOptions<JwtSettings>>((options, jwtSettings) =>
+            {
+                JwtSettings jwt = jwtSettings.Value;
+
+                options.MapInboundClaims = false;
+
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    JwtSettings jwt = jwtSettings.Value;
+                    ValidateIssuer = true,
+                    ValidIssuer = jwt.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = jwt.Audience,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SecretKey)),
+                    ClockSkew = TimeSpan.FromMinutes(1),
+                    NameClaimType = JwtRegisteredClaimNames.Name,
+                    RoleClaimType = JwtSettings.RoleClaimType
+                };
+            });
 
-                    options.MapInboundClaims = false;
+        services.AddAuthorizationBuilder()
+            .SetFallbackPolicy(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build());
 
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidIssuer = jwt.Issuer,
-                        ValidateAudience = true,
-                        ValidAudience = jwt.Audience,
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SecretKey)),
-                        ClockSkew = TimeSpan.FromMinutes(1),
-                        NameClaimType = JwtRegisteredClaimNames.Name,
-                        RoleClaimType = JwtSettings.RoleClaimType
-                    };
-                });
-
-            services.AddAuthorizationBuilder()
-                .SetFallbackPolicy(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build());
-
-            return services;
-        }
+        return services;
     }
 }

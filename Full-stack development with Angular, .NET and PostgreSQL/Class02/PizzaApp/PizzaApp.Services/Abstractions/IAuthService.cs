@@ -1,11 +1,10 @@
-﻿using PizzaApp.Dtos.Auth;
+using PizzaApp.Dtos.Auth;
 using PizzaApp.Dtos.User;
 
-namespace PizzaApp.Services.Abstractions
+namespace PizzaApp.Services.Abstractions;
+
+public interface IAuthService
 {
-    public interface IAuthService
-    {
-        Task<UserDto> RegisterAsync(RegisterRequsetDto requset);
-        Task<LoginResponsDto> LoginAsync(LoginRequestDto requset);
-    }
+    Task<UserDto> RegisterAsync(RegisterRequsetDto requset);
+    Task<LoginResponsDto> LoginAsync(LoginRequestDto requset);
 }

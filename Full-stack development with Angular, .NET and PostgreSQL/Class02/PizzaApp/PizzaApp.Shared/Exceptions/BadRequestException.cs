@@ -1,11 +1,10 @@
-﻿namespace PizzaApp.Shared.Exceptions
+namespace PizzaApp.Shared.Exceptions;
+
+public class BadRequestException : AppException
 {
-    public class BadRequestException : AppException
+    public IReadOnlyList<string> Errors { get; set; } = [];
+    public BadRequestException(string message, IEnumerable<string>? errors = null) : base(message)
     {
-        public IReadOnlyList<string> Errors { get; set; } = [];
-        public BadRequestException(string message, IEnumerable<string>? errors = null) : base(message)
-        {
-            Errors = errors?.ToList() ?? [];
-        }
+        Errors = errors?.ToList() ?? [];
     }
 }

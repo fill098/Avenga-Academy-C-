@@ -1,10 +1,9 @@
-﻿namespace PizzaApp.Domain.Enums
+namespace PizzaApp.Domain.Enums;
+
+public enum OrderStatus
 {
-    public enum OrderStatus
-    {
-        Pending = 1,
-        Preparing = 2,
-        Delivered = 3,
-        Cancelled = 4
-    }
+    Pending = 1,
+    Preparing = 2,
+    Delivered = 3,
+    Cancelled = 4
 }
