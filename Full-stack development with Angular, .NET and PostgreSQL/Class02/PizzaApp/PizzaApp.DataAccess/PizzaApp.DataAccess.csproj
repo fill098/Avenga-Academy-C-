@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PizzaApp.Domain\PizzaApp.Domain.csproj" />
+    <ProjectReference Include="..\PizzaApp.Dtos\PizzaApp.Dtos.csproj" />
   </ItemGroup>
 
 </Project>

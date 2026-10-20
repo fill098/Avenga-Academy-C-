@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using PizzaApp.Domain.Constatns;
 using PizzaApp.Domain.Entities;
 using PizzaApp.Dtos.Auth;
-using PizzaApp.Dtos.User;
+using PizzaApp.Dtos.Users;
 using PizzaApp.Services.Abstractions;
 using PizzaApp.Services.Models;
 using PizzaApp.Shared.Exceptions;
@@ -65,7 +65,7 @@ public class AuthService : IAuthService
         {
             Token = tokenResult.Token,
             ExpiresAt = tokenResult.EXpiresEt,
-            UserName = user.UserName,
+            UserName = user.UserName ?? string.Empty,
             Roles = [.. roles]
         };
     }

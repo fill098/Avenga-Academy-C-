@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PizzaApp.Dtos.Auth;
-using PizzaApp.Dtos.User;
+using PizzaApp.Dtos.Users;
 using PizzaApp.Services.Abstractions;
 
 namespace PizzaApp.Api.Controllers;

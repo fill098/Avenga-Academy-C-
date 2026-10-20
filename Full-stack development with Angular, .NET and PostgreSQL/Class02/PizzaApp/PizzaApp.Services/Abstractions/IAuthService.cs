@@ -1,5 +1,6 @@
 using PizzaApp.Dtos.Auth;
-using PizzaApp.Dtos.User;
+using PizzaApp.Dtos.Users;
+
 
 namespace PizzaApp.Services.Abstractions;
 

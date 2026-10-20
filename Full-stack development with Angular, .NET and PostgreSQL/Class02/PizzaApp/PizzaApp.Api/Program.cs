@@ -12,7 +12,7 @@ builder.Services
     .AddDataAccess(builder.Configuration)
     .AddMappers()
     .AddServices()
-    .AddApi();
+    .AddApi(builder.Configuration);
 
 
 builder.Services.AddControllers();

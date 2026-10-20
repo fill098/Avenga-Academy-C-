@@ -1,4 +1,4 @@
-namespace PizzaApp.Dtos.User;
+namespace PizzaApp.Dtos.Users;
 
 public class UserDto
 {

@@ -16,7 +16,7 @@ public class PizzasController : ApiControllerBase
 
     public async Task<ActionResult<List<PizzaDto>>> GetAll(CancellationToken cancellationToken)
     {
-        var pizzas = _pizzaService.GetAllAsync(cancellationToken);
+        var pizzas = await _pizzaService.GetAllAsync(cancellationToken);
         return Ok(pizzas);
     }
 

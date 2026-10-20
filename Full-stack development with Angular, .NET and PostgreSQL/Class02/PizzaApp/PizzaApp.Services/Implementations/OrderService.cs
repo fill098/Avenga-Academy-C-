@@ -61,9 +61,23 @@ public class OrderService : IOrderService
 
         return await GetByIdAsync(order.Id, cancellationToken);
     }
-    public Task<OrderDto> UpdateAsync(int id, UpdateOrderDto request, CancellationToken cancellationToken = default)
+    public async Task<OrderDto> UpdateAsync(int id, UpdateOrderDto request, CancellationToken cancellationToken = default)
     {
-        return null;
+        var order = await FindOrderAsync(id, cancellationToken);
+        _currentUser.EnsureOwnerOrAdmin(order.UserId);
+
+        if (order.Status != OrderStatus.Pending)
+        {
+            throw new ConflictException($"Only pending orders can be changed. This order is {order.Status}.");
+        }
+
+        // Copies the new address and description onto the tracked order
+        _mapper.Map(request, order);
+        order.UpdatedDate = DateTime.UtcNow;
+
+        await _orderRepository.UpdateAsync(order, cancellationToken);
+
+        return _mapper.Map<OrderDto>(order);
     }
     public async Task<OrderDto> ChangeStatusAsync(int id, ChangeOrderStatusDto request, CancellationToken cancellationToken = default)
     {
@@ -86,7 +100,11 @@ public class OrderService : IOrderService
     }
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-       
+        // Only Admins get here: [Authorize(Roles = Roles.Admin)] on the controller action
+        var order = await FindOrderAsync(id, cancellationToken);
+
+        // The database deletes its pizzas too (cascade delete)
+        await _orderRepository.DeleteAsync(order, cancellationToken);
     }
     public async Task<Order> FindOrderAsync(int id, CancellationToken cancellationToken)
     {

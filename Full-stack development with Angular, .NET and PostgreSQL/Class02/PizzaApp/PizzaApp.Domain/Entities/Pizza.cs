@@ -9,8 +9,8 @@ public class Pizza : BaseEntity
     public string? Description { get; set; }
     public decimal Price { get; set; }
     public List<Ingredient> Ingredients { get; set; } = [];
-    public string UserId { get; set; }
-    public User User { get; set; }
+    public string UserId { get; set; } = string.Empty;
+    public User User { get; set; } = null!;
     public int? OrderId { get; set; }
-    public Order Order { get; set; }
+    public Order Order { get; set; } = null!;
 }

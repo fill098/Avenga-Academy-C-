@@ -9,7 +9,7 @@ public class Order : BaseEntity
     public string? Description { get; set; }
     public decimal TotalPrice { get; set; }
     public OrderStatus Status { get; set; } = OrderStatus.Pending;
-    public string UserId { get; set; }
-    public User User { get; set; }
+    public string UserId { get; set; } = string.Empty;
+    public User User { get; set; } = null!;
     public List<Pizza> Pizzas { get; set; } = [];
 }
