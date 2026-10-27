@@ -9,5 +9,5 @@ import { Header } from './core/layout/header/header';
   templateUrl: './app.html',
 })
 export class App {
-  protected readonly title = signal('pizza-app');
+  // protected readonly title = signal('pizza-app');
 }
