@@ -1,27 +1,25 @@
-import { Component } from '@angular/core';
-import { MENU } from '../menu-data';
+import { Component, inject } from '@angular/core';
+import { MENU, MenuPizza } from '../menu-data';
 import { NgOptimizedImage } from '@angular/common';
-import { MatCard, MatCardHeader, MatCardTitle, MatCardContent } from '@angular/material/card';
-import { MatChipSet, MatChip } from '@angular/material/chips';
+import { PizzaCard } from '../pizza-card/pizza-card';
+import { MatButtonModule } from '@angular/material/button';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
-  imports: [
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    MatChipSet,
-    MatChip,
-    NgOptimizedImage,
-  ],
+  imports: [NgOptimizedImage, PizzaCard, MatButtonModule, RouterLink],
   selector: 'app-home',
   styleUrl: './home.scss',
   templateUrl: './home.html',
 })
 export class Home {
   protected readonly menu = MENU;
-}
+  protected readonly router = inject(Router);
 
+  protected navigateToPizzaMaker(selectedPizza: MenuPizza): void {
+    // /pizza-maker?pizza=<selectedPizza.id>
+    this.router.navigate(['/pizza-maker'], { state: { pizza: selectedPizza } });
+  }
+}
 // export class Home {
 //   protected readonly shopName = 'Pizza App';
 //   protected readonly toppings = ['Tomato sauce', 'Mozzarella', 'Basil'];

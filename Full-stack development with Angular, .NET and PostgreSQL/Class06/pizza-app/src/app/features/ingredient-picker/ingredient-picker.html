@@ -1,0 +1,7 @@
+<mat-selection-list aria-label="Ingredients">
+  @for (item of ingredients; track item) {
+    <mat-list-option [value]="item">
+      {{ item }}
+    </mat-list-option>
+  }
+</mat-selection-list>

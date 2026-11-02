@@ -10,7 +10,7 @@ builder.Services
     .AddDataAccess(builder.Configuration)
     .AddMappers()
     .AddServices()
-    .AddApi();
+    .AddApi(builder.Configuration);
 
 var app = builder.Build();
 
@@ -24,8 +24,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapApiDocs(); // /openapi/v1.json + Scalar UI at /scalar
 }
-
 app.UseHttpsRedirection();
+app.UseCors(CorsExtensions.FrontendPolicy);
 
 app.UseAuthentication();
 app.UseAuthorization();
